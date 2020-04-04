@@ -1,4 +1,4 @@
-### User Stories
+# User Stories
 
 - As a user , I want to be able to save an external URL along with a title and description, because I will want to reference it at a later date.
 
@@ -14,7 +14,7 @@
 
   - As a user, i want to be able to register an account and navigate through my account effectively withou any issues.
 
-  ### User Scenarios
+  # User Scenarios
 
   -  Given that I am logged in, when I click on 'My Resources', then I would want to be able to see all my liked resources as well as my own generated resources.
 
@@ -31,7 +31,7 @@
   - Given that I am logged in, I should be able to update my profile upon a click of a button. (STETCH)
 
 
-  ### User Experience
+  # User Experience
 
   1. Non-user/ Users home page will show the most uploaded resources
 
@@ -49,7 +49,7 @@
 
   7. Making resources option available to either 'Everyone' OR 'Just Users' (STRETCH)
  
-  ## Pages Required
+  # Pages Required
 
   - Home Page
     - Resource card will expand upon click
@@ -61,34 +61,34 @@
   - Create Resource Page (potentially a popup)
   - Categories Page
 
-### Best Case Scenario
+# Best Case Scenario
 
 I visit the page and I am welcomed by a home page showing available resources. I do not have a user account, so I click on the register button and create an account, which redirects me to the My Resources page. I want to find a particular resource on web development, so I type web development into the search bar and click the search button. This directs me to a new page full of resources on web development that I can sift through to find the resource that I am looking for. Once found I will click into the resource and the resource card will expand to show the title and description.
 
-### Routes 
+# Routes 
 
-# Users - (Potential STRETCH)
+### Users - (Potential STRETCH)
 - Register User - GET, POST ('/register')
 - User Login - GET, POST ('/login)
 - Update Profile - GET, POST ('/profile/:userid/edit')
 - Logout - POST ('/logout') - redirect to homepage
 
-# Resources 
+### Resources 
 - My Resources page - GET ('/resources')
 - My Resources page - GET, POST ('/resources/:userid')
 
-# Resource Rating
+### Resource Rating
 - Comment - GET, POST ('/resource/:resid')
 - Ratings - GET, POST ('/resource/:resid')
 - Like - GET, POST ('/resource/:resid')
 
-# Search Resource
+### Search Resource
 - Non-user Search Submit - GET, POST ('/resources/browse)
 - User Search Submit - GET, POST ('/resources/:userid/browse)
 
-# Add Resource
+### Add Resource
 - Add Resource - GET, POST ('/resources/:userid')
 - Delete - POST ('/resource/:resid/delete') - STRETCH
 
-# Categories
+### Categories
 - Add categories - GET, POST ('/resources/:userid')
