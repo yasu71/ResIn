@@ -75,7 +75,7 @@ I visit the page and I am welcomed by a home page showing available resources. I
 
 ### Resources 
 - My Resources page - GET ('/resources')
-- My Resources page - GET, POST ('/resources/:userid')
+[X] My Resources page - GET, POST ('/resources/:userid')
 
 ### Resource Rating
 - Comment - GET, POST ('/resource/:resid')
@@ -87,8 +87,8 @@ I visit the page and I am welcomed by a home page showing available resources. I
 - User Search Submit - GET, POST ('/resources/:userid/browse)
 
 ### Add Resource
-- Add Resource - GET, POST ('/resources/:userid')
+[X] Add Resource - GET, POST ('/resources/:userid')
 - Delete - POST ('/resource/:resid/delete') - STRETCH
 
 ### Categories
-- Add categories - GET, POST ('/resources/:userid')
+- Add categories - GET, POST ('/resources/:userid/')
