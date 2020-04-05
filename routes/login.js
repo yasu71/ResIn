@@ -7,12 +7,11 @@ router.use(cookieSession({
   keys: ['key1']
 }));
 
-
 module.exports = (db) => {
 
   router.get("/:id", (req, res) => {
     req.session.user_id = req.params.id;
-    res.redirect("/resources/:userid")
+    res.redirect("/resources/1")
   });
 
   router.post("/logout", (req, res) => {
