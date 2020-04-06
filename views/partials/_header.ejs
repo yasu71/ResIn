@@ -3,9 +3,10 @@
     <a href="/">ResWise</a>
   </div>
   <div class="search-form">
-    <form action="/search">
-      <input type="text" placeholder="&#xF002; Search" name="search" style="font-family:Arial, FontAwesome"><!-- this style needs to be inlined in ordr to serch icon to work -->
-      <button type="submit">Search</button>
+    <form action="/resource/browse" method="GET" id="resource-search">
+      <label for="search-bar"></label>
+      <input type="text" placeholder="&#xF002; Search" id="search-input" name="search" style="font-family:Arial, FontAwesome"><!-- this style needs to be inlined in ordr to serch icon to work -->
+      <button type="submit" id="search-btn">Search</button>
     </form>
   </div>
   <div class="logged-in-menu">
