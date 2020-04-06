@@ -10,22 +10,11 @@ const sass       = require("node-sass-middleware");
 const app        = express();
 const morgan     = require('morgan');
 
-
-const cookieSession = require('cookie-session');
-app.use(cookieSession({
-  name: 'session',
-  keys: ['key1']
-}));
-
-
 // PG database client/connection setup
 const { Pool } = require('pg');
 const dbParams = require('./lib/db.js');
 const db = new Pool(dbParams);
 db.connect();
-
-const databaseWrapMaker = require('./db/database');
-const databaseWrap = databaseWrapMaker(db);
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -49,12 +38,12 @@ const resourcesRoutes = require("./routes/resources");
 const loginRoutes = require("./routes/login");
 
 
+
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 app.use("/users", usersRoutes(db));
-app.use("/resources", resourcesRoutes(db, databaseWrap));
+app.use("/resources", resourcesRoutes(db));
 app.use("/login", loginRoutes(db));
-
 
 // Note: mount other resources here, using the same pattern above
 
