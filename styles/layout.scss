@@ -1,9 +1,14 @@
 // See: https://sass-lang.com/
+@import 'resets.scss';
+@import 'variables.scss';
+
 
 body {
-  background-color: #EEE;
+  background-color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  color: $text-color;
 
   h1 {
-    color: #244751;
+    color: $text-color;
   }
 }

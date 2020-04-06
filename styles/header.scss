@@ -1,0 +1,81 @@
+@import 'resets.scss';
+@import 'variables.scss';
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px solid $primary-color;
+  padding: 15px;
+
+  .search-form {
+    width: 40%;
+
+    form  {
+      border: 1px solid $text-color;
+      display: flex;
+      justify-content: space-between;
+
+      input {
+        border: none;
+        padding: 7px 10px;
+        font-family:Arial, FontAwesome;
+        width: 100%;
+      }
+
+      &:focus {
+        border: none;
+      }
+
+      button{
+        text-transform: uppercase;
+        color: #fff;
+        background-color: $text-color;
+        padding: 8px 10px;
+        border: 0;
+      }
+    }
+  }
+
+  .logged-in-menu {
+
+    ul {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+      li {
+        padding: 0 10px;
+        font-weight: map-get($font-weights, medium);
+        text-transform: uppercase;
+
+        a {
+          color: $text-color;
+          text-decoration: none;
+
+          &:hover {
+            color: $secondary-color;
+          }
+        }
+      }
+
+      .user-name {
+
+        a {
+          color: $secondary-color;
+          text-decoration: none;
+        }
+
+      }
+
+      form button {
+        text-transform: uppercase;
+        color: #fff;
+        background-color: $text-color;
+        padding: 8px 10px;
+        border: 0;
+        font-weight: map-get($font-weights, regualr);
+      }
+    }
+  }
+}
