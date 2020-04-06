@@ -68,13 +68,12 @@ I visit the page and I am welcomed by a home page showing available resources. I
 # Routes 
 
 ### Users - (Potential STRETCH)
-- Register User - GET, POST ('/register')
-- User Login - GET, POST ('/login)
+- User Login - GET ('/login/:id)
 - Update Profile - GET, POST ('/profile/:userid/edit')
 - Logout - POST ('/logout') - redirect to homepage
 
 ### Resources 
-- My Resources page - GET ('/resources')
+- Resources page - GET ('/resources')
 [X] My Resources page - GET, POST ('/resources/:userid')
 
 ### Resource Rating
@@ -84,7 +83,7 @@ I visit the page and I am welcomed by a home page showing available resources. I
 
 ### Search Resource
 - Non-user Search Submit - GET, POST ('/resources/browse)
-- User Search Submit - GET, POST ('/resources/:userid/browse)
+[X] User Search Submit - GET ('/resources/search) - Ajax
 
 ### Add Resource
 [X] Add Resource - GET, POST ('/resources/:userid')
