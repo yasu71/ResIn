@@ -1,36 +1,14 @@
 const express = require('express');
 const router  = express.Router();
-const cookieSession = require('cookie-session');
 
-router.use(cookieSession({
-  name: 'session',
-  keys: ['key1']
-}));
-
-module.exports = (db) => {
+module.exports = (db, database) => {
 
   // My Resources Page for User once logged in
-  router.get("/user/:userid", (req, res) => {
-    console.log('Resources Get Returned');
-    db.query(`SELECT * FROM resources WHERE user_id = ${req.params.userid};`)
+  router.get("/:userid", (req, res) => {
+    const userId = req.session.user_id;
+    database.getAllResources(userId)
       .then(data => {
-        const resources = data.rows;
-        res.json({ resources });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-  });
-
-  // Get request for the search feature,  search will convert table data and input to lowercase to compare before returning results to the searchform.js
-  router.get("/search", (req, res) => {
-
-    db.query(`SELECT resources.*, ratings.* FROM resources JOIN ratings ON resources.id = resource_id WHERE LOWER(resources.title) LIKE LOWER('%${req.query.search}%') OR resources.description LIKE LOWER('%${req.query.search}%')`)
-      .then(data => {
-        const resources = data.rows;
-        res.json({ resources });
+        res.json(data);
       })
       .catch(err => {
         res
@@ -60,6 +38,8 @@ module.exports = (db) => {
       res.status(400).json({ error: 'invalid request: no data in POST body'});
     } else {
       db.query(`INSERT INTO resources (user_id, url, title, description, category_id) VALUES (${userId}, ${resourceUrl}, ${resourceTitle}, ${resourceDescription}, ${resourceCategory})`)
+      // const userId = req.session.userId;
+      // db.addResources({...req.body, user_id: userId})
         .then(data => {
           const resources = data.rows;
           res.json({ resources });
