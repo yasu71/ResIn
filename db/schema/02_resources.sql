@@ -5,5 +5,6 @@ CREATE TABLE resources (
   category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE,
   url VARCHAR(255) NOT NULL,
   title VARCHAR(255) NOT NULL,
-  description VARCHAR(255) NOT NULL
+  description VARCHAR(255) NOT NULL,
+  img_url VARCHAR(255) NOT NULL
 );
