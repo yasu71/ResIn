@@ -7,11 +7,23 @@
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <!-- <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript" src="/scripts/components/resourcelist.js"></script>
+    <script type="text/javascript" src="/scripts/components/searchform.js"></script>
+
   </head>
 
   <body>
+    <nav id="navbar">
+      <form action="/resource/browse" method="GET" id="resource-search">
+        <label for="search-bar"></label>
+        <input type="text" name="search" id="search-input" placeholder="">
+        <button type="submit" id="search-btn">SEARCH</button>
+      </form>
+    </nav>
     <h1>Hello World!</h1>
+    <section id="resource-container"></section>
   </body>
 </html>

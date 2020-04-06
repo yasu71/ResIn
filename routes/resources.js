@@ -5,7 +5,7 @@ const router  = express.Router();
 module.exports = (db) => {
 
   // My Resources Page for User once logged in
-  router.get("/users/:userid", (req, res) => {
+  router.get("/user/:userid", (req, res) => {
     console.log('Resources Get Returned');
     db.query(`SELECT * FROM resources WHERE user_id = ${req.params.userid};`)
       .then(data => {
@@ -19,9 +19,10 @@ module.exports = (db) => {
       });
   });
 
+
+  // Get request for the search feature,  search will convert table data and input to lowercase to compare before returning results to the searchform.js
   router.get("/search", (req, res) => {
-    // console.log('This is in the search');
-    // console.log(req.query)
+
     db.query(`SELECT resources.*, ratings.* FROM resources JOIN ratings ON resources.id = resource_id WHERE LOWER(resources.title) LIKE LOWER('%${req.query.search}%') OR resources.description LIKE LOWER('%${req.query.search}%')`)
       .then(data => {
         const resources = data.rows;
@@ -32,7 +33,7 @@ module.exports = (db) => {
           .status(500)
           .json({ error: err.message });
       });
-  })
+  });
 
   router.post("/", (req, res) => {
 
