@@ -12,7 +12,7 @@ module.exports = (db) => {
   // My Resources Page for User once logged in
   router.get("/user/:userid", (req, res) => {
     console.log('Resources Get Returned');
-    db.query(`SELECT * FROM resources WHERE user_id = ${req.params.userid};`)
+    db.query(`SELECT resources.*, categories.* FROM resources JOIN categories on categories.id = category_id WHERE resources.user_id = ${req.params.userid};`)
       .then(data => {
         const resources = data.rows;
         res.json({ resources });
@@ -73,6 +73,28 @@ module.exports = (db) => {
     }
   });
 
+  router.get("/user/:userid/category", (req, res) => {
+
+    // const categoryName = req.params.resources.name;
+    const user_id = req.params.user_id;
+    const addCategoryName = req.body.name;
+
+    // if(addCategoryName === categoryName) {
+    //   res.status(400).json({ error: 'invalid request: category already exists in this resource.'});
+    //   // this is a placeholder message
+    // } else {
+      db.query(`SELECT resources.*, categories.* FROM resources JOIN categories on categories.id = category_id WHERE resources.user_id = ${req.params.userid};`)
+        .then(data => {
+          const resources = data.rows;
+          res.json({ resources });
+        })
+        .catch(err => {
+          res
+            .status(500)
+            .json({ error: err.message });
+        });
+    // }
+  });
+
   return router;
 };
-
