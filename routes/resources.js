@@ -1,21 +1,15 @@
 const express = require('express');
 const router  = express.Router();
-const cookieSession = require('cookie-session');
 
-router.use(cookieSession({
-  name: 'session',
-  keys: ['key1']
-}));
-
-module.exports = (db) => {
+module.exports = (db, database) => {
 
   // My Resources Page for User once logged in
   router.get("/user/:userid", (req, res) => {
     console.log('Resources Get Returned');
-    db.query(`SELECT * FROM resources WHERE user_id = ${req.params.userid};`)
+    const userId = req.session.user_id;
+    database.getAllResources(userId)
       .then(data => {
-        const resources = data.rows;
-        res.json({ resources });
+        res.json(data);
       })
       .catch(err => {
         res
