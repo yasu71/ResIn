@@ -24,6 +24,14 @@ module.exports = (db) => {
       });
   });
 
+  // // Storing cookie in a function to be used in resourselist
+  // function setCookie(cname, cvalue, exdays) {
+  //   var d = new Date();
+  //   d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  //   var expires = "expires="+ d.toUTCString();
+  //   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  // }
+
 
   // Get request for the search feature,  search will convert table data and input to lowercase to compare before returning results to the searchform.js
   router.get("/search", (req, res) => {

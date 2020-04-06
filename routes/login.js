@@ -11,7 +11,7 @@ module.exports = (db) => {
 
   router.get("/:id", (req, res) => {
     req.session.user_id = req.params.id;
-    res.redirect("/resources/1")
+    res.redirect("/resources/1");
   });
 
   router.post("/logout", (req, res) => {

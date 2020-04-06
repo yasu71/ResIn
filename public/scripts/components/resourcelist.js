@@ -1,16 +1,26 @@
 $(() => {
-  // console.log('This is search form');
 
-  // Populating the resources list for individulay users
-  const loadResource = function() {
-    $.getJSON(`/resources/user/1`) // Dummy user data inserted for now
-    .then((results) => {
-      console.log(results)
+  // console.log('This is search form');
+  // User id retreieved from cookie users.js
+  const getUserId = () => {
+    $.getJSON('/users/me')
+      .then((value) => {
+        loadResource(value);
+
+      });
+  };
+
+  // Populating the resources list for individual user by calling function in getUserId
+  const loadResource = function(user_id) {
+
+    $.getJSON(`/resources/user/${user_id}`)
+      .then((results) => {
+        // console.log(results)
         renderResources(results);
       });
   };
 
-  loadResource();
+  getUserId();
 
   const renderResources = function(results) {
     $('#resource-container').empty();
@@ -34,16 +44,6 @@ $(() => {
 
     return $article;
 
-  }
-
-  // const $form = $('#resource-search');
-
-  // $form.on('submit', (event) => {
-
-  //   event.preventDefault();
-  //   const data = $('#search-input').val();
-  //   console.log(data)
-  //   searchResource(data);
-  // });
+  };
 
 });
