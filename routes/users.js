@@ -7,6 +7,12 @@
 
 const express = require('express');
 const router  = express.Router();
+const cookieSession = require('cookie-session');
+
+router.use(cookieSession({
+  name: 'session',
+  keys: ['key1']
+}));
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
@@ -20,6 +26,17 @@ module.exports = (db) => {
           .status(500)
           .json({ error: err.message });
       });
+  });
+
+  // Retrieving user id cookie so it is available in resourceslist.js to retrieve resource list for that particular user
+  router.get("/me", (req, res) => {
+
+    const userId = req.session.user_id;
+    if(!userId) {
+      res.send({message: "not logged in"});
+      return;
+    }
+    res.send(userId);
   });
   return router;
 };
