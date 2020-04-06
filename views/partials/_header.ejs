@@ -1,0 +1,25 @@
+<nav>
+  <div>
+    <a href="/">ResWise</a>
+  </div>
+  <div class="search-form">
+    <form action="/search">
+      <input type="text" placeholder="&#xF002; Search" name="search" style="font-family:Arial, FontAwesome"><!-- this style needs to be inlined in ordr to serch icon to work -->
+      <button type="submit">Search</button>
+    </form>
+  </div>
+  <div class="logged-in-menu">
+    <ul>
+      <li><a href="#">Resources</a></li>
+      <li><a href="#">Add Resources</a></li>
+      <li class="user-name"><a href="#">Jennifer</a></li>
+      <li>
+        <form action="/logout" method="POST">
+          <div class="form-group">
+            <button type="submit">Logout</button>
+          </div>
+        </form>
+      </li>
+    </ul>
+  </div>
+</nav>

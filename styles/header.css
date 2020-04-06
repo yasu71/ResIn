@@ -1,0 +1,131 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after {
+  content: '';
+  content: none;
+}
+
+q:before, q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-bottom: 3px solid #c188aa;
+  padding: 15px;
+}
+
+nav .search-form {
+  width: 40%;
+}
+
+nav .search-form form {
+  border: 1px solid #4a4a4a;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+nav .search-form form input {
+  border: none;
+  padding: 7px 10px;
+  font-family: Arial, FontAwesome;
+  width: 100%;
+}
+
+nav .search-form form:focus {
+  border: none;
+}
+
+nav .search-form form button {
+  text-transform: uppercase;
+  color: #fff;
+  background-color: #4a4a4a;
+  padding: 8px 10px;
+  border: 0;
+}
+
+nav .logged-in-menu ul {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+nav .logged-in-menu ul li {
+  padding: 0 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+nav .logged-in-menu ul li a {
+  color: #4a4a4a;
+  text-decoration: none;
+}
+
+nav .logged-in-menu ul li a:hover {
+  color: #7d566e;
+}
+
+nav .logged-in-menu ul .user-name a {
+  color: #7d566e;
+  text-decoration: none;
+}
+
+nav .logged-in-menu ul form button {
+  text-transform: uppercase;
+  color: #fff;
+  background-color: #4a4a4a;
+  padding: 8px 10px;
+  border: 0;
+  font-weight: 400;
+}
+/*# sourceMappingURL=header.css.map */
