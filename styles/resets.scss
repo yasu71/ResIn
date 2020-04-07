@@ -17,7 +17,81 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   display: block; }
 
 body {
-  line-height: 1; }
+  line-height: 1;
+ }
+
+ h1 {
+   position: relative;
+   text-align: center;
+   font-size: 25px;
+ }
+
+ section {
+   margin: 20px;
+ }
+
+ article {
+   margin: 15px 10px;
+   word-break: break-all;
+   width: 30%;
+   height: 600px;
+   box-sizing: border-box;
+   float: left;
+   border: solid #818181;
+   border-width: thin;
+   border-radius: 20px;
+   padding: 20px;
+   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+   transition: 0.3s;
+  }
+  article .img-url {
+    width: 100%;
+    height: 65%;
+  }
+  article .resource-title {
+    padding-top: 25px;
+    font-weight: bold;
+    font-size: 20px;
+    padding-bottom: 15px;
+  }
+
+  article .new-url {
+    display: none;
+  }
+
+  article .resource-desc {
+    line-height: 22px;
+  }
+
+  article .resource-rating {
+    word-break: break-all;
+    // position: absolute;
+    bottom: 0;
+    padding-top: 100px;;
+    float: left;
+    padding-top: 10px;
+    border-spacing: 2px;
+    color: rgb(124, 61, 120);
+    font-weight: bold;
+
+  }
+
+  article .icons {
+    bottom: 0;
+    padding-top: 100px;;
+    position: relative;
+    float: right;
+    padding-top: 10px;
+    border-spacing: 2px;
+    color: rgb(255, 166, 0);
+
+  }
+
+
+
+ article:hover {
+  box-shadow: 0 7px 8px 0 #2c2c2c;
+ }
 
 ol, ul {
   list-style: none; }
