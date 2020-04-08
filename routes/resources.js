@@ -85,8 +85,9 @@ module.exports = (db) => {
   // adding category to a resource
   router.post("/user/:userid/:categoryid", (req, res) => {
     // const resourceId = 2;
-    // const resourceId = req.body.resource_id;
+    const resourceId = req.body.resource_id;
     const categoryId = req.params.categoryid;
+    console.log("req.body", req.body)
     // ^each category in the dropdown should have caregories.id
     db.query(`
     UPDATE resources
