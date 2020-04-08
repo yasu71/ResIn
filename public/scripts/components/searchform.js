@@ -10,17 +10,16 @@ $(() => {
 
   const renderResources = function(results) {
     $('#resource-container').empty();
-    // console.log(results['resources'])
 
     for (const resource of results['resources']) {
-      // console.log("resource: ", resource)
       let $resource = createResElement(resource);
       $('#resource-container').append($resource);
     }
 
-    // change event handler to category dropdown(s)
-
+    //// START Add category with dropdown(s)
     $('#resource-container').on('change', '.categorySelect', function (event) {
+
+      const getResourceId = $(this).closest('.loaded-resource').attr("id")
 
       const selectedCategoryId = $(`option:selected`, $(this)).val();
       event.preventDefault();
@@ -28,17 +27,22 @@ $(() => {
       const getCategory = (categoryChoice) => {
         $.getJSON('/categories')
         .then((categories) => {
-          for (const category of categories){
-            if (category.id == categoryChoice){
-              $.post(`/resources/user/1/${categoryChoice}`,{resourceId: 1});
-              return renderCategories($(this), category.name);
+          for (const category of categories) {
+            if (category.id == categoryChoice) {
+              for (const resource of results['resources']) {
+                if (resource.id == getResourceId) {
+                $.post(`/resources/user/${resource.user_id}/${categoryChoice}`,{resourceId: getResourceId});
+                return renderCategories($(this), category.name);
+                }
               }
             }
-          });
-        }
+          }
+        });
+      }
       getCategory(selectedCategoryId)
     });
 
+    //Shows category tag and hide dropdown
     const renderCategories = ($select, result) => {
       container = $select.closest('.category-container')
       container.empty();
@@ -46,10 +50,13 @@ $(() => {
       container.append($category);
     };
 
+    //Created category tag
     const createNewCategory = category => {
       const $newCategory = $('<div>').addClass('new-category').text(category);
       return $newCategory;
     };
+
+    //// END Add category with dropdown(s)
 
     //// START Like/Heart turns to pink
     $('#resource-container').on('click', '.fa-heart', function(event) {
@@ -84,12 +91,11 @@ $(() => {
     const $heartContainer = $('<div>').addClass('heart-container')
     const $heart = $('<i>').addClass('fa fa-heart').attr("id", `heart-${resource.id}`);
 
-    // START adding category dropdown
-    ////// if category already has a category tag, show the tag
+    //// START adding category dropdown
+    ////// conditions for categories whether resource already has a category tag or not
     // if (resource.category_id) {
     //   $category = renderCategory()
     // }
-    ////// if resources don't have a category tag yet, show dropdown
     // else {
     //   $category = renderCategoryDropdown()
     // }
@@ -110,7 +116,7 @@ $(() => {
     const $categoryForm = $("<form>").attr("action", `/resource/user/${resource.user_id}`).attr("method", "POST");
     const $div =$("<div>").attr("id", "demo");
     const $categoryDropdown = $("<div>").addClass("category-container").attr("id", "container-hide");
-    // END adding category dropdown
+    //// END adding category dropdown
 
     $dropdownSelect.append($addCategoryLabel, $javascript, $ruby, $python, $C, $css, $sql, $java, $jQuery, $html, $bash, $rust);
     $categoryForm.append($dropdownSelect, $input);
@@ -126,7 +132,6 @@ $(() => {
   const $form = $('#resource-search');
 
   $form.on('submit', (event) => {
-
     event.preventDefault();
     const data = $('#search-input').val();
     console.log(data)

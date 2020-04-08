@@ -1,11 +1,5 @@
 const express = require('express');
 const router  = express.Router();
-// const cookieSession = require('cookie-session');
-
-// router.use(cookieSession({
-//   name: 'session',
-//   keys: ['key1']
-// }));
 
 module.exports = (db) => {
 
@@ -83,11 +77,8 @@ module.exports = (db) => {
 
   // adding category to a resource
   router.post("/user/:userid/:categoryid", (req, res) => {
-    const resourceId = 2;
-    // const resourceId = req.body.resource_id;
+    const resourceId = req.body.resourceId;
     const categoryId = req.params.categoryid;
-    console.log("req.body", req.body)
-    // ^each category in the dropdown should have caregories.id
     db.query(`
     UPDATE resources
     SET category_id = $2
