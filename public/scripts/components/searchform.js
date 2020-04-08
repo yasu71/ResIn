@@ -34,7 +34,7 @@ $(() => {
     const $heart = $('<i>').addClass('fa fa-heart');
 
     $footerspan.append($heart);
-    $footer.append($rating, $footerspan);
+    $footer.append('<br>', $footerspan, $rating);
     $article.append($image, $title, $url, $description, $footer);
 
     return $article;
