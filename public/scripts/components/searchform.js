@@ -87,7 +87,6 @@ $(() => {
     },).starrr();
     //const $rating = $('<p>').text(resource.rating + '/5 rating').addClass('resource-rating');
     const $footer = $('<p>').addClass('resource-footer');
-    const $footerspan = $('<span>').addClass('icons');
     const $heartContainer = $('<div>').addClass('heart-container')
     const $heart = $('<i>').addClass('fa fa-heart').attr("id", `heart-${resource.id}`);
 
