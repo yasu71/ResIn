@@ -22,7 +22,6 @@ module.exports = (db) => {
           .status(500)
           .json({ error: err.message });
       });
-    res.render("resources");
   });
 
   // Get request for the search feature,  search will convert table data and input to lowercase to compare before returning results to the searchform.js
@@ -84,8 +83,8 @@ module.exports = (db) => {
 
   // adding category to a resource
   router.post("/user/:userid/:categoryid", (req, res) => {
-    // const resourceId = 2;
-    const resourceId = req.body.resource_id;
+    const resourceId = 2;
+    // const resourceId = req.body.resource_id;
     const categoryId = req.params.categoryid;
     console.log("req.body", req.body)
     // ^each category in the dropdown should have caregories.id
