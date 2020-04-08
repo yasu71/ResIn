@@ -10,33 +10,28 @@ $(() => {
 
   const renderResources = function(results) {
     $('#resource-container').empty();
-    console.log(results['resources'])
+    // console.log(results['resources'])
 
     for (const resource of results['resources']) {
-      console.log("resource: ", resource)
+      // console.log("resource: ", resource)
       let $resource = createResElement(resource);
       $('#resource-container').append($resource);
     }
 
     // change event handler to category dropdown(s)
-    const $form = $(".categorySelect");
 
-    const $resourseId = $form.parent().parent().parent().attr('id')
+    $('#resource-container').on('change', '.categorySelect', function (event) {
 
-    $($form).change((event) => {
-      const selectedCategoryId = $(`option:selected`, $form).val();
+      const selectedCategoryId = $(`option:selected`, $(this)).val();
       event.preventDefault();
-      // $(`option:selected`, $form).val() ==> returns to selected value from dropdown
 
       const getCategory = (categoryChoice) => {
         $.getJSON('/categories')
         .then((categories) => {
           for (const category of categories){
-            // console.log("categories: ", categories)
-            // console.log("categoryChoice: ", categoryChoice)
             if (category.id == categoryChoice){
-              $.post(`/resources/user/1/${categoryChoice}`);
-              return renderCategories(category.name);
+              $.post(`/resources/user/1/${categoryChoice}`,{resourceId: 1});
+              return renderCategories($(this), category.name);
               }
             }
           });
@@ -44,10 +39,11 @@ $(() => {
       getCategory(selectedCategoryId)
     });
 
-    const renderCategories = results => {
-      $('.category-container').empty();
-      let $category = createNewCategory(results);
-      $('.category-container').append($category);
+    const renderCategories = ($select, result) => {
+      container = $select.closest('.category-container')
+      container.empty();
+      let $category = createNewCategory(result);
+      container.append($category);
     };
 
     const createNewCategory = category => {
@@ -56,13 +52,15 @@ $(() => {
     };
 
     //// START Like/Heart turns to pink
-    let $articleId = $('.fa-heart').closest('.loaded-resource').attr('id');
+    $('#resource-container').on('click', '.fa-heart', function(event) {
+      $heart = $(this)
+      $heart.css("color", "pink")
 
-    $(`#${$articleId} > div > .fa-heart`).click(() => {
-      $(`#${$articleId} > div > .fa-heart`).css("color", "pink");
+      let articleId = $heart.closest('.loaded-resource').attr('id');
+
       for (const resource of results['resources']) {
-        if(resource.id == $articleId){
-          $.post(`/resources/user/${resource.user_id}/${$articleId}`, $articleId);
+        if(resource.id == articleId){
+          $.post(`/resources/user/${resource.user_id}/${articleId}`);
         }
       }
     })
@@ -107,7 +105,7 @@ $(() => {
     const $ruby = $("<option>").attr("value", 2).text("ruby");
     const $javascript = $("<option>").attr("value", 1).text("Javascript");
     const $addCategoryLabel = $("<option>").attr("value", 0).text("Add Category");
-    const $dropdownSelect = $("<select>").addClass("categorySelect").attr("name", "category");
+    const $dropdownSelect = $("<select>").addClass("categorySelect").attr("name", 'category');
     const $input = $("<input>").attr("type", "hidden").attr("name", "resource_id").attr("value", resource.id);
     const $categoryForm = $("<form>").attr("action", `/resource/user/${resource.user_id}`).attr("method", "POST");
     const $div =$("<div>").attr("id", "demo");
