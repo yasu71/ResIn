@@ -1,28 +1,31 @@
 $(() => {
+  console.log('this is the newresource')
+  const $form = $('#resource-form');
+  const $newresource = $('#addresource-down');
+  const $submitresource = $('#new-resource')
 
-  // console.log('This is search form');
-  // User id retreieved from cookie users.js
+
   const getUserId = () => {
     $.getJSON('/users/me')
       .then((value) => {
-        loadResource(value);
+        loadResources(value);
 
       });
   };
 
-  // Populating the resources list for individual user by calling function in getUserId
-  const loadResource = function(user_id) {
+  const loadResources = function(user_id) {
 
     $.getJSON(`/resources/user/${user_id}`)
       .then((results) => {
         // console.log(results)
-        renderResources(results);
+        renderResource(results);
       });
   };
 
   getUserId();
 
-  const renderResources = function(results) {
+  // For each resource the page will be reloaded with the current tweets and new one appended
+  const renderResource = function(results) {
     $('#resource-container').empty();
     // console.log(results['resources'])
 
@@ -45,7 +48,6 @@ $(() => {
     const $footerspan = $('<span>').addClass('icons');
     const $heart = $('<i>').addClass('fa fa-heart');
 
-
     $footerspan.append($heart);
     $footer.append('<br>', $footerspan, $rating);
     $article.append($image, $title, $url, $description, $footer);
@@ -53,5 +55,30 @@ $(() => {
     return $article;
 
   };
+
+  // Submit request for the tweet
+  $form.on('submit', (event) => {
+
+    // prevent default behaviour of HTML post method and ACTION and will post below using ajax
+    event.preventDefault();
+
+    // Form data formatted into query string using serialize
+    const formInfo = $form.serialize();
+    console.log(formInfo)
+
+    $.post('/resources', formInfo)
+      .then((response) => {
+        getUserId();
+        $('#resources-img').val("");
+        $('#resources-url').val("");
+        $('#resources-title').val("");
+        $('#resources-description').val("");
+      });
+    $('#new-resource').slideUp(400);
+  });
+
+  $newresource.on('click', (event) => {
+    $('#new-resource').slideToggle(400);
+  });
 
 });

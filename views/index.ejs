@@ -17,6 +17,7 @@
     <script type="text/javascript" src="/scripts/components/resourcelist.js"></script>
     <script type="text/javascript" src="/scripts/components/searchform.js"></script>
     <script src="/vendor/starrr.js"></script>
+    <script src="/scripts/components/newresource.js"></script>
 
   </head>
   <body>
@@ -24,7 +25,20 @@
     <header>
       <%- include('partials/_header') %>
     </header>
-
+    <section id="new-resource">
+        <form id="resource-form" method="POST" action="/resources/">
+          <label for="resource-text" id="resource-text">Add your Resource</label>
+          <br>
+          <textarea cols="40" wrap="hard" name="img_url" placeholder="Image URL" id="resources-img"></textarea>
+          <textarea cols="40" wrap="hard" name="url" placeholder="Resource URL"id="resources-url"></textarea>
+          <textarea cols="40" wrap="hard" name="title" placeholder="Resource Title"id="resources-title"></textarea>
+          <textarea cols="40" wrap="hard" name="description" placeholder="Resource Description" id="resources-description"></textarea>
+          <br>
+          <div class="btn-container">
+            <button id="resource-btn" type="submit">SAVE</button>
+          </div>
+        </form>
+    </section>
     <h1 id="resource-header">Resources</h1>
     <section id="resource-container"></section>
   </body>
