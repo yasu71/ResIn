@@ -26,8 +26,7 @@ $(() => {
     $($form).change((event) => {
       const selectedCategoryId = $(`option:selected`, $form).val();
       event.preventDefault();
-      console.log("$(`option:selected`, $form).val()", $(`option:selected`, $form).val())
-      //  ==> this returns to selected value from dropdown
+      // $(`option:selected`, $form).val() ==> returns to selected value from dropdown
 
       const getCategory = (categoryChoice) => {
         $.getJSON('/categories')
@@ -56,14 +55,18 @@ $(() => {
       return $newCategory;
     };
 
-    // Like/Heart turns to pink
+    //// START Like/Heart turns to pink
+    let $articleId = $('.fa-heart').closest('.loaded-resource').attr('id');
 
-    let $articleId = $('.fa-heart').parent().parent().attr('id');
     $(`#${$articleId} > div > .fa-heart`).click(() => {
-      console.log("$articleId", $articleId)
       $(`#${$articleId} > div > .fa-heart`).css("color", "pink");
-      $.post(`/resources/user/1/${$articleId}`, $articleId);
+      for (const resource of results['resources']) {
+        if(resource.id == $articleId){
+          $.post(`/resources/user/${resource.user_id}/${$articleId}`, $articleId);
+        }
+      }
     })
+    //// END Like/Heart turns to pink
 
   };
 

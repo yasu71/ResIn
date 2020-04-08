@@ -15,7 +15,6 @@ module.exports = (db) => {
     db.query(`SELECT resources.*, ratings.* FROM resources JOIN ratings ON resources.id = resource_id WHERE resources.user_id = ${req.params.userid};`)
       .then(data => {
         const resources = data.rows;
-        res.render("resources");
         res.json({ resources });
       })
       .catch(err => {
@@ -23,6 +22,7 @@ module.exports = (db) => {
           .status(500)
           .json({ error: err.message });
       });
+    res.render("resources");
   });
 
   // Get request for the search feature,  search will convert table data and input to lowercase to compare before returning results to the searchform.js
