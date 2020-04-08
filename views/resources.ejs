@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Resources Page</title>
+
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/header.css" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+
+
+    <!-- <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript" src="/scripts/components/resourcelist.js"></script>
+    <script type="text/javascript" src="/scripts/components/searchform.js"></script>
+    <script type="text/javascript" src="/scripts/components/addCategory.js"></script>
+    <script type="text/javascript" src="/vendor/starrr.js"></script>
+
+    <style>
+      .category-container{
+        color:purple;
+      }
+
+      .new-category{
+        background-color: darksalmon;
+        padding: 5px;
+        color: #fff;
+        display: block;
+        margin: 10px;
+        width: 25%;
+        border-radius: 3px;
+        text-align: center;
+        /* float: right; */
+      }
+      .heart-pink {
+        font-size: 25px;
+    cursor: pointer;
+    user-select: none;
+        color:pink;
+      }
+
+      .fa {
+        font-size: 25px;
+        cursor: pointer;
+        user-select: none;
+        color: #dedede;
+      }
+
+      .fa-heart:hover {
+        color: pink;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <%- include('partials/_header') %>
+    </header>
+
+    <h1>This is a test for adding category</h1>
+
+    <section id="resource-container"></section>
+
+<!-- <div class="category-container" id="container-hide">
+  <form action="/resources/user/1" method="POST" id ="category-form">
+    <select id="categorySelect" name="category">
+      <option value="1">Javascript</option>
+      <option value="2">Ruby</option>
+      <option value="5">Python</option>
+      <option value="6">JQuery</option>
+      <option value="7">C++</option>
+      <option value="8">PHP</option>
+      <option value="9">Java</option>
+      <input type="hidden" name="resource_id" value=resource.id></input>
+    </select>
+  </form>
+</div>
+
+ <div id="demo"></div> -->
+
+  </body>
+</html>

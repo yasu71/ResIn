@@ -1,11 +1,11 @@
 const express = require('express');
 const router  = express.Router();
-const cookieSession = require('cookie-session');
+// const cookieSession = require('cookie-session');
 
-router.use(cookieSession({
-  name: 'session',
-  keys: ['key1']
-}));
+// router.use(cookieSession({
+//   name: 'session',
+//   keys: ['key1']
+// }));
 
 module.exports = (db) => {
 
@@ -15,6 +15,7 @@ module.exports = (db) => {
     db.query(`SELECT resources.*, ratings.* FROM resources JOIN ratings ON resources.id = resource_id WHERE resources.user_id = ${req.params.userid};`)
       .then(data => {
         const resources = data.rows;
+        res.render("resources");
         res.json({ resources });
       })
       .catch(err => {
@@ -27,7 +28,10 @@ module.exports = (db) => {
   // Get request for the search feature,  search will convert table data and input to lowercase to compare before returning results to the searchform.js
   router.get("/search", (req, res) => {
 
-    db.query(`SELECT resources.*, ratings.* FROM resources FULL OUTER JOIN ratings ON resources.id = resource_id WHERE LOWER(resources.title) LIKE LOWER('%${req.query.search}%') OR resources.description LIKE LOWER('%${req.query.search}%')`)
+    db.query(`SELECT *
+    FROM resources, ratings
+    WHERE resources.id = ratings.resource_id AND
+    (LOWER(resources.title) LIKE LOWER('%${req.query.search}%') OR LOWER(resources.description) LIKE LOWER('%${req.query.search}%'))`)
       .then(data => {
         const resources = data.rows;
         res.json({ resources });
@@ -77,6 +81,71 @@ module.exports = (db) => {
         });
     }
   });
+
+  // adding category to a resource
+  router.post("/user/:userid/:categoryid", (req, res) => {
+    // const resourceId = 2;
+    // const resourceId = req.body.resource_id;
+    const categoryId = req.params.categoryid;
+    // ^each category in the dropdown should have caregories.id
+    db.query(`
+    UPDATE resources
+    SET category_id = $2
+    WHERE resources.id = $1
+    ;`, [resourceId, categoryId])
+    .then(data => {
+      const resources = data.rows;
+      res.json({ resources });
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+  });
+
+
+  // adding Like to a resource
+  router.post("/user/:userid/:resourceid", (req, res) => {
+    const user_id = req.params.userid;
+    const resourceId = req.params.resourceid;
+    db.query(`
+    INSERT INTO likes (user_id, resource_id)
+    VALUES ($1, $2)
+    ;`, [user_id, resourceId])
+    .then(data => {
+      const resources = data.rows;
+      res.json({ resources });
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+  });
+
+  // adding ratings to a resource
+  // router.post("/user/:userid/:resourceid", (req, res) => {
+  //   console.log("data", data)
+  //   const user_id = req.params.userid;
+  //   const resourceId = req.params.resourceid;
+  //   const rating =
+  //   db.query(`
+  //   INSERT INTO ratings (user_id, resource_id, ratings)
+  //   VALUES ($1, $2, $3)
+  //   ;`, [user_id, resourceId, rating])
+  //   .then(data => {
+  //     const resources = data.rows;
+  //     res.json({ resources });
+  //   })
+  //   .catch(err => {
+  //     res
+  //       .status(500)
+  //       .json({ error: err.message });
+  //   });
+  // });
+
+
 
   return router;
 };
