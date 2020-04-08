@@ -37,7 +37,7 @@ body {
    height: 475px;
    box-sizing: border-box;
    float: left;
-   border: solid #818181;
+   border: solid #a5a5a5;
    border-width: thin;
    border-radius: 10px;
    padding: 20px;
@@ -53,6 +53,7 @@ body {
     margin-right: auto;
   }
   article .resource-title {
+    height: 150px;
     padding-top: 25px;
     font-weight: bold;
     font-size: 20px;
@@ -64,6 +65,7 @@ body {
   }
 
   article .resource-desc {
+    display: none;
     line-height: 22px;
     overflow: auto;
   }
