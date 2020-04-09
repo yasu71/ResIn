@@ -58,6 +58,20 @@ var slice = [].slice;
       }
       this.options.rating = rating;
       this.syncRating();
+
+      //// START Sending star ratings to server
+      const $star = this.$el;
+      let resourceId = $star.closest('.loaded-resource').attr('id');
+      $.getJSON('/resources')
+      .then((resources) => {
+        for (const resource of resources['resources']) {
+          if(resource.id == resourceId){
+            $.post(`/resources/user/${resource.user_id}/rating/${rating}`, {resourceId: resource.id});
+          }
+        }
+      });
+      //// END Sending star ratings to server
+
       return this.$el.trigger('starrr:change', rating);
     };
 

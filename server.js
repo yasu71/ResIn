@@ -45,13 +45,13 @@ const loginRoutes = require("./routes/login");
 const categoryRoutes = require("./routes/categories");
 
 
-
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 app.use("/users", usersRoutes(db));
 app.use("/resources", resourcesRoutes(db));
 app.use("/categories", categoryRoutes(db));
 app.use("/login", loginRoutes(db));
+
 
 // Note: mount other resources here, using the same pattern above
 

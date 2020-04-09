@@ -2,6 +2,20 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = (db) => {
+  router.get("/", (req, res) => {
+    console.log('Resources Get Returned');
+    db.query(`SELECT * FROM resources`)
+      .then(data => {
+        const resources = data.rows;
+        res.json({ resources });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
 
   // My Resources Page for User once logged in
   router.get("/user/:userid", (req, res) => {
@@ -76,7 +90,8 @@ module.exports = (db) => {
   });
 
   // adding category to a resource
-  router.post("/user/:userid/:categoryid", (req, res) => {
+  router.post("/user/:userid/category/:categoryid", (req, res) => {
+    console.log("category was added")
     const resourceId = req.body.resourceId;
     const categoryId = req.params.categoryid;
     db.query(`
@@ -97,7 +112,8 @@ module.exports = (db) => {
 
 
   // adding Like to a resource
-  router.post("/user/:userid/:resourceid", (req, res) => {
+  router.post("/user/:userid/resource/:resourceid", (req, res) => {
+    console.log("Like was added")
     const user_id = req.params.userid;
     const resourceId = req.params.resourceid;
     db.query(`
@@ -116,27 +132,26 @@ module.exports = (db) => {
   });
 
   // adding ratings to a resource
-  // router.post("/user/:userid/:resourceid", (req, res) => {
-  //   console.log("data", data)
-  //   const user_id = req.params.userid;
-  //   const resourceId = req.params.resourceid;
-  //   const rating =
-  //   db.query(`
-  //   INSERT INTO ratings (user_id, resource_id, ratings)
-  //   VALUES ($1, $2, $3)
-  //   ;`, [user_id, resourceId, rating])
-  //   .then(data => {
-  //     const resources = data.rows;
-  //     res.json({ resources });
-  //   })
-  //   .catch(err => {
-  //     res
-  //       .status(500)
-  //       .json({ error: err.message });
-  //   });
-  // });
-
-
+  router.post("/user/:userid/rating/:rating", (req, res) => {
+    console.log("Rating was added")
+    const user_id = req.params.userid;
+    const resourceId = req.body.resourceId;
+    const rating = req.params.rating
+    db.query(`
+    INSERT INTO ratings (user_id, resource_id, rating)
+    VALUES ($1, $2, $3)
+    ;`, [user_id, resourceId, rating])
+    .then(data => {
+      const resources = data.rows;
+      res.json({ resources });
+    })
+    .catch(err => {
+      console.log(err);
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+  });
 
   return router;
 };
