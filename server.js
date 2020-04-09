@@ -9,6 +9,12 @@ const bodyParser = require("body-parser");
 const sass       = require("node-sass-middleware");
 const app        = express();
 const morgan     = require('morgan');
+const cookieSession = require('cookie-session');
+
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1']
+}));
 
 // PG database client/connection setup
 const { Pool } = require('pg');
@@ -36,14 +42,16 @@ app.use(express.static("public"));
 const usersRoutes = require("./routes/users");
 const resourcesRoutes = require("./routes/resources");
 const loginRoutes = require("./routes/login");
-
+const categoryRoutes = require("./routes/categories");
 
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 app.use("/users", usersRoutes(db));
 app.use("/resources", resourcesRoutes(db));
+app.use("/categories", categoryRoutes(db));
 app.use("/login", loginRoutes(db));
+
 
 // Note: mount other resources here, using the same pattern above
 

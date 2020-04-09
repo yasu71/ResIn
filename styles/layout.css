@@ -19,6 +19,80 @@ body {
   line-height: 1;
 }
 
+h1 {
+  position: relative;
+  text-align: center;
+  font-size: 25px;
+}
+
+section {
+  margin: 20px;
+}
+
+article {
+  margin: 15px 10px;
+  word-break: break-all;
+  width: 30%;
+  height: 600px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  float: left;
+  border: solid #818181;
+  border-width: thin;
+  border-radius: 20px;
+  padding: 20px;
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+article .img-url {
+  width: 100%;
+  height: 65%;
+}
+
+article .resource-title {
+  padding-top: 25px;
+  font-weight: bold;
+  font-size: 20px;
+  padding-bottom: 15px;
+}
+
+article .new-url {
+  display: none;
+}
+
+article .resource-desc {
+  line-height: 22px;
+}
+
+article .resource-rating {
+  word-break: break-all;
+  bottom: 0;
+  padding-top: 100px;
+  float: left;
+  padding-top: 10px;
+  border-spacing: 2px;
+  color: #7c3d78;
+  font-weight: bold;
+}
+
+article .icons {
+  bottom: 0;
+  padding-top: 100px;
+  position: relative;
+  float: right;
+  padding-top: 10px;
+  border-spacing: 2px;
+  color: #ffa600;
+}
+
+article:hover {
+  -webkit-box-shadow: 0 7px 8px 0 #2c2c2c;
+          box-shadow: 0 7px 8px 0 #2c2c2c;
+}
+
 ol, ul {
   list-style: none;
 }
@@ -50,5 +124,56 @@ body {
 
 body h1 {
   color: #4a4a4a;
+}
+
+.starrr a {
+  display: inline;
+  color: #f3b310;
+  text-decoration: none;
+  font-size: 20px;
+  padding: 0 1px;
+  cursor: pointer;
+}
+
+.category-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.category-container form .categorySelect {
+  border-radius: 10px;
+  border: 2px solid #c188aa;
+  background: #fff;
+  height: 35px;
+}
+
+.new-category {
+  background-color: #c188aa;
+  padding: 5px;
+  line-height: 20px;
+  color: #fff;
+  display: block;
+  margin: 10px;
+  width: 25%;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.fa {
+  font-size: 25px;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  color: #dedede;
+}
+
+.fa-heart:hover {
+  color: #ffc0cb;
 }
 /*# sourceMappingURL=layout.css.map */

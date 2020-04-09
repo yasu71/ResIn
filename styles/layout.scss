@@ -168,3 +168,42 @@ body {
     cursor: pointer;
   }
 }
+
+
+.category-container {
+  display: flex;
+  justify-content: flex-end;
+
+  form {
+
+    .categorySelect {
+      border-radius: 10px;
+      border: 2px solid $primary-color;
+      background: #fff;
+      height: 35px;
+    }
+  }
+}
+
+.new-category{
+  background-color: $primary-color;
+  padding: 5px;
+  line-height: 20px;
+  color: #fff;
+  display: block;
+  margin: 10px;
+  width: 25%;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.fa {
+  font-size: 25px;
+  cursor: pointer;
+  user-select: none;
+  color: #dedede;
+}
+
+.fa-heart:hover {
+  color: #ffc0cb;
+}
