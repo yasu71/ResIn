@@ -79,16 +79,35 @@ const createResElement = function(resource) {
     id: 'star1',
   }).starrr();
   const $footer = $('<p>').addClass('resource-footer');
+
+  //// START adding Likes/Heart elements with condition
   const $heartContainer = $('<div>').addClass('heart-container');
   const $heart = $('<i>').addClass('fa fa-heart').attr("id", `heart-${resource.id}`);
-  //// START adding category dropdown
-  ////// conditions for categories whether resource already has a category tag or not
-  // if (resource.category_id) {
-  //   $category = renderCategory()
-  // }
-  // else {
-  //   $category = renderCategoryDropdown()
-  // }
+  $.getJSON('/likes')
+    .then((likes) => {
+      for (const like of likes) {
+        if (resource.id === like.resource_id){
+          $heart.css("color", "pink");
+          $heartContainer.append($heart)
+        } else {
+        $heartContainer.append($heart)
+        }
+      }
+    });
+  //// END ////
+  //// START adding category dropdown with condition
+  const $categoryDropdown = $("<div>").addClass("category-container").attr("id", "container-hide");
+  if (resource.category_id) {
+    $.getJSON('/categories')
+    .then((categories) => {
+      for (const category of categories) {
+        if (resource.category_id == category.id) {
+          const $newCategory = $('<div>').addClass('new-category').text(category.name);
+          $categoryDropdown.append($newCategory);
+        }
+      }
+    })
+  } else {
   const $rust = $("<option>").attr("value", 11).text("Rust");
   const $bash = $("<option>").attr("value", 10).text("Bash");
   const $html = $("<option>").attr("value", 9).text("HTML");
@@ -102,17 +121,22 @@ const createResElement = function(resource) {
   const $javascript = $("<option>").attr("value", 1).text("Javascript");
   const $addCategoryLabel = $("<option>").attr("value", 0).text("Add Category");
   const $dropdownSelect = $("<select>").addClass("categorySelect").attr("name", 'category');
+  $dropdownSelect.append($addCategoryLabel, $javascript, $ruby, $python, $C, $css, $sql, $java, $jQuery, $html, $bash, $rust);
+
   const $input = $("<input>").attr("type", "hidden").attr("name", "resource_id").attr("value", resource.id);
   const $categoryForm = $("<form>").attr("action", `/resource/user/${resource.user_id}`).attr("method", "POST");
-  const $div = $("<div>").attr("id", "demo");
-  const $categoryDropdown = $("<div>").addClass("category-container").attr("id", "container-hide");
-  //// END adding category dropdown
-  $dropdownSelect.append($addCategoryLabel, $javascript, $ruby, $python, $C, $css, $sql, $java, $jQuery, $html, $bash, $rust);
   $categoryForm.append($dropdownSelect, $input);
+
+  const $div =$("<div>").attr("id", "demo");
+  $article.append($div);
   $categoryDropdown.append($categoryForm);
+  $categoryForm.append($dropdownSelect, $input);
+  }
+  //// END ////
+
   $footer.append($rating);
   $heartContainer.append($heart);
-  $article.append($image, $title, $url, $description, $footer, $heartContainer, $categoryDropdown, $div);
+  $article.append($image, $title, $url, $description, $footer, $heartContainer, $categoryDropdown);
 
   return $article;
 };
