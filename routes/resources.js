@@ -36,10 +36,8 @@ module.exports = (db) => {
   // Get request for the search feature,  search will convert table data and input to lowercase to compare before returning results to the searchform.js
   router.get("/search", (req, res) => {
 
-    db.query(`SELECT *
-    FROM resources, ratings
-    WHERE resources.id = ratings.resource_id AND
-    (LOWER(resources.title) LIKE LOWER($1) OR LOWER(resources.description) LIKE LOWER($1))`, [`%${req.query.search}%`])
+
+    db.query(`SELECT resources.*, ratings.* FROM resources FULL OUTER JOIN ratings ON resources.id = resource_id WHERE LOWER(resources.title) LIKE LOWER($1) OR resources.description LIKE LOWER($1)`, [`%${req.query.search}%`])
       .then(data => {
         const resources = data.rows;
         res.json({ resources });

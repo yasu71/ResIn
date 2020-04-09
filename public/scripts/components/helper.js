@@ -25,6 +25,7 @@ const renderResources = function(results) {
     const getResourceId = $(this).closest('.loaded-resource').attr("id");
     const selectedCategoryId = $(`option:selected`, $(this)).val();
     event.preventDefault();
+
     const getCategory = (categoryChoice) => {
       $.getJSON('/categories')
         .then((categories) => {
@@ -114,4 +115,14 @@ const createResElement = function(resource) {
   $article.append($image, $title, $url, $description, $footer, $heartContainer, $categoryDropdown, $div);
 
   return $article;
+};
+
+const searchResource = function(input) {
+  const query = `search=${input}`;
+
+  $.getJSON('/resources/search', query)
+    .then((results) => {
+      console.log(results)
+      renderResources(results);
+    });
 };
