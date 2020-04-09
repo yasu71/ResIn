@@ -46,7 +46,7 @@ $(() => {
             if (category.id == categoryChoice) {
               for (const resource of results['resources']) {
                 if (resource.id == getResourceId) {
-                $.post(`/resources/user/${resource.user_id}/${categoryChoice}`,{resourceId: getResourceId});
+                $.post(`/resources/user/${resource.user_id}/category/${categoryChoice}`,{resourceId: getResourceId});
                 return renderCategories($(this), category.name);
                 }
               }
@@ -83,7 +83,7 @@ $(() => {
 
       for (const resource of results['resources']) {
         if(resource.id == articleId){
-          $.post(`/resources/user/${resource.user_id}/${articleId}`);
+          $.post(`/resources/user/${resource.user_id}/resource/${articleId}`);
         }
       }
     })

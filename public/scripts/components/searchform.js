@@ -18,7 +18,6 @@ $(() => {
 
     //// START Add category with dropdown(s)
     $('#resource-container').on('change', '.categorySelect', function (event) {
-
       const getResourceId = $(this).closest('.loaded-resource').attr("id")
 
       const selectedCategoryId = $(`option:selected`, $(this)).val();
@@ -31,7 +30,7 @@ $(() => {
             if (category.id == categoryChoice) {
               for (const resource of results['resources']) {
                 if (resource.id == getResourceId) {
-                $.post(`/resources/user/${resource.user_id}/${categoryChoice}`,{resourceId: getResourceId});
+                $.post(`/resources/user/${resource.user_id}/category/${categoryChoice}`,{resourceId: getResourceId});
                 return renderCategories($(this), category.name);
                 }
               }
@@ -67,11 +66,27 @@ $(() => {
 
       for (const resource of results['resources']) {
         if(resource.id == articleId){
-          $.post(`/resources/user/${resource.user_id}/${articleId}`);
+          $.post(`/resources/user/${resource.user_id}/resource/${articleId}`);
         }
       }
     })
     //// END Like/Heart turns to pink
+
+    //// START ratings sending to router
+    // $('#resource-container').on('click.starrr', 'a', function(event) {
+    //   $star = $(this)
+    //   console.log($star);
+    //   // $heart.css("color", "pink")
+
+    //   getResourceId
+
+      // for (const resource of results['resources']) {
+      //   if(resource.id == getResourceId){
+      //     $.post(`/resources/user/${resource.user_id}/${articleId}`);
+      //   }
+      // }
+    // })
+    //// END ratings sending to router
 
   };
 
