@@ -43,9 +43,10 @@ const usersRoutes = require("./routes/users");
 const resourcesRoutes = require("./routes/resources");
 const loginRoutes = require("./routes/login");
 const categoryRoutes = require("./routes/categories");
-const categoryLikes = require("./routes/likes.js");
+const likesRoutes = require("./routes/likes.js");
 const commentRoutes = require("./routes/comments");
-const categoryRatings = require("./routes/ratings.js");
+const ratingRoutes = require("./routes/ratings.js");
+const logoutRoutes = require("./routes/logout.js");
 
 
 // Mount all resource routes
@@ -53,10 +54,11 @@ const categoryRatings = require("./routes/ratings.js");
 app.use("/users", usersRoutes(db));
 app.use("/resources", resourcesRoutes(db));
 app.use("/login", loginRoutes(db));
+app.use("/logout", logoutRoutes(db));
 app.use("/categories", categoryRoutes(db));
-app.use("/likes", categoryLikes(db));
+app.use("/likes", likesRoutes(db));
 app.use("/comments", commentRoutes(db));
-app.use("/ratings", categoryRatings(db));
+app.use("/ratings", ratingRoutes(db));
 
 
 // Note: mount other resources here, using the same pattern above
