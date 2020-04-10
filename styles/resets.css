@@ -2,7 +2,7 @@
    v2.0 | 20110126
    License: none (public domain)
 */
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+html, body, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
   margin: 0;
   padding: 0;
   border: 0;
@@ -26,36 +26,54 @@ h1 {
 }
 
 section {
-  margin: 20px;
+  margin: 20px 20px 0px 100px;
 }
 
 article {
   margin: 15px 10px;
-  word-break: break-all;
+  word-break: keep-all;
   width: 30%;
-  height: 600px;
+  height: 875px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   float: left;
-  border: solid #818181;
+  border: solid #a5a5a5;
   border-width: thin;
-  border-radius: 20px;
+  border-radius: 10px;
   padding: 20px;
   -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
           box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   -webkit-transition: 0.3s;
   transition: 0.3s;
+  overflow: auto;
 }
 
 article .img-url {
   width: 100%;
-  height: 65%;
+  height: 55%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+article .fa-heart {
+  position: relative;
+  float: right;
+  margin-left: 5px;
+}
+
+article .fa-comments {
+  position: relative;
+  float: right;
+  margin-left: 7px;
+  color: #7c3d78;
 }
 
 article .resource-title {
-  padding-top: 25px;
+  height: 70px;
+  width: 80%;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 17px;
   padding-bottom: 15px;
 }
 
@@ -65,12 +83,16 @@ article .new-url {
 
 article .resource-desc {
   line-height: 22px;
+  height: 80px;
+  margin-bottom: 20px;
+  overflow: auto;
 }
 
 article .resource-rating {
-  word-break: break-all;
+  display: -ms-inline-grid;
+  display: inline-grid;
   bottom: 0;
-  padding-top: 100px;
+  word-break: break-all;
   float: left;
   padding-top: 10px;
   border-spacing: 2px;
@@ -78,19 +100,15 @@ article .resource-rating {
   font-weight: bold;
 }
 
-article .icons {
-  bottom: 0;
-  padding-top: 100px;
-  position: relative;
-  float: right;
-  padding-top: 10px;
-  border-spacing: 2px;
-  color: #ffa600;
+article .resource-footer {
+  display: -ms-inline-grid;
+  display: inline-grid;
+  padding-top: 15px;
 }
 
 article:hover {
-  -webkit-box-shadow: 0 7px 8px 0 #2c2c2c;
-          box-shadow: 0 7px 8px 0 #2c2c2c;
+  -webkit-box-shadow: 0 8px 12px 0 #333333;
+          box-shadow: 0 8px 12px 0 #333333;
 }
 
 ol, ul {

@@ -89,9 +89,16 @@ const createResElement = function(resource) {
   const resourceId = resource.id;
   //console.log(resourceId)
   const $article = $('<article>').addClass('loaded-resource').attr("id", resource.id);
-  const $title = $('<p>').text(resource.title).addClass('resource-title');
+  const $title = $('<p>').addClass('resource-title');
+  const $titleLink = $('<a>').attr('href', resource.url).attr("target", "_blank").addClass('source-url').text(resource.title);
+  const $imgDiv = $('<div>').addClass('img-container');
+  const $imgATag = $('<a>').attr('href', resource.url).attr("target", "_blank").addClass('source-url');
   const $image = $('<img>').attr("src",resource.img_url).addClass('img-url');
-  const $commenticon = $('<i>').addClass('fa fa-comments');
+
+  const $imageOverlay = $('<div>').addClass('img-overlay');
+  const $overlayText = $('<div>').addClass('overlayText').text('Go to Resource Page');
+  const $commenticon = $('<i>').addClass('fa fa-comments').attr('aria-hidden', 'true');
+
   const $url = $('<p>').text(resource.url).addClass('new-url');
   const $description = $('<p>').text(resource.description).addClass('resource-desc');
   const $footer = $('<p>').addClass('resource-footer');
@@ -223,7 +230,13 @@ const createResElement = function(resource) {
 
   $formcomment.append($comment, $hiddenresource, '<br>', $commentbtn);
   $heartContainer.append($heart);
-  $article.append($image, '<br>', $heartContainer, $commenticon, $title, $url, $description,  $footer, $categoryDropdown, '<br>', $formcomment, '<br>', $postedcomment);
+
+  $imageOverlay.append($overlayText);
+  $imgATag.append($image, $imageOverlay);
+  $imgDiv.append($imgATag);
+  $title.append($titleLink);
+  $article.append($imgDiv, '<br>', $heartContainer, $commenticon, $title, $url, $description,  $footer, $categoryDropdown, '<br>', $formcomment, '<br>', $postedcomment;
+
 
   return $article;
 };

@@ -22,7 +22,23 @@ module.exports = (db) => {
     console.log('Resources Get Returned');
 
 
-    db.query(`SELECT resources.*, AVG(ratings.rating) AS rating FROM resources LEFT OUTER JOIN ratings ON resources.id = resource_id WHERE resources.user_id = $1 GROUP BY resources.id`, [`${req.params.userid}`])
+
+    // db.query(`SELECT resources.*, ratings.rating FROM resources LEFT OUTER JOIN ratings ON resources.id = resource_id WHERE resources.user_id = $1`, [`${req.params.userid}`])
+
+//     db.query(`SELECT  resources.*, ratings.rating
+//     FROM resources
+//     FULL OUTER JOIN ratings ON resources.id = ratings.resource_id
+//     FULL OUTER JOIN likes ON resources.id = likes.resource_id
+//     WHERE resources.user_id = $1 OR likes.user_id = $1
+//     ;`, [`${req.params.userid}`])
+
+    db.query(`
+    SELECT resources.*, 
+    AVG(ratings.rating) AS rating 
+    FROM resources 
+    LEFT OUTER JOIN ratings ON resources.id = resource_id 
+    WHERE resources.user_id = $1 
+    GROUP BY resources.id`, [`${req.params.userid}`])
 
     //db.query(`SELECT  resources.*, ratings.rating
     //FROM resources
@@ -30,6 +46,7 @@ module.exports = (db) => {
     //FULL OUTER JOIN likes ON resources.id = likes.resource_id
     //WHERE resources.user_id = $1 OR likes.user_id = $1
     //;`, [`${req.params.userid}`])
+
 
       .then(data => {
         const resources = data.rows;
