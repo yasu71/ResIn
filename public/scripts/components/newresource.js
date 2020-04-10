@@ -12,7 +12,7 @@ $(() => {
 
     // Form data formatted into query string using serialize
     const formInfo = $form.serialize();
-    console.log('this is in the newresource ', formInfo)
+    // console.log('this is in the newresource ', formInfo)
 
     $.post('/resources', formInfo)
       .then((response) => {
@@ -26,7 +26,6 @@ $(() => {
   });
 
   $newresource.on('click', (event) => {
-    $('#new-resource').slideToggle(400);
+    $('#new-resource').slideToggle(300);
   });
-
 });

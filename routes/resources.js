@@ -22,14 +22,31 @@ module.exports = (db) => {
     console.log('Resources Get Returned');
 
 
+
     // db.query(`SELECT resources.*, ratings.rating FROM resources LEFT OUTER JOIN ratings ON resources.id = resource_id WHERE resources.user_id = $1`, [`${req.params.userid}`])
 
-    db.query(`SELECT  resources.*, ratings.rating
-    FROM resources
-    FULL OUTER JOIN ratings ON resources.id = ratings.resource_id
-    FULL OUTER JOIN likes ON resources.id = likes.resource_id
-    WHERE resources.user_id = $1 OR likes.user_id = $1
-    ;`, [`${req.params.userid}`])
+//     db.query(`SELECT  resources.*, ratings.rating
+//     FROM resources
+//     FULL OUTER JOIN ratings ON resources.id = ratings.resource_id
+//     FULL OUTER JOIN likes ON resources.id = likes.resource_id
+//     WHERE resources.user_id = $1 OR likes.user_id = $1
+//     ;`, [`${req.params.userid}`])
+
+    db.query(`
+    SELECT resources.*, 
+    AVG(ratings.rating) AS rating 
+    FROM resources 
+    LEFT OUTER JOIN ratings ON resources.id = resource_id 
+    WHERE resources.user_id = $1 
+    GROUP BY resources.id`, [`${req.params.userid}`])
+
+    //db.query(`SELECT  resources.*, ratings.rating
+    //FROM resources
+    //FULL OUTER JOIN ratings ON resources.id = ratings.resource_id
+    //FULL OUTER JOIN likes ON resources.id = likes.resource_id
+    //WHERE resources.user_id = $1 OR likes.user_id = $1
+    //;`, [`${req.params.userid}`])
+
 
       .then(data => {
         const resources = data.rows;
@@ -47,12 +64,12 @@ module.exports = (db) => {
   router.get("/search", (req, res) => {
 console.log(req.query.search)
 
-    db.query(`SELECT resources.*, ratings.rating, COUNT(liked.id) as liked_bool
+    db.query(`SELECT resources.*, AVG(ratings.rating) as rating, COUNT(liked.id) as liked_bool
     FROM resources
     FULL OUTER JOIN ratings ON resources.id = ratings.resource_id
     FULL OUTER JOIN (SELECT likes.id, likes.resource_id FROM likes WHERE likes.user_id = $1) as liked ON resources.id = liked.resource_id
     WHERE (LOWER(resources.title) LIKE LOWER('%' || $2 || '%') OR resources.description LIKE LOWER('%' || $2 || '%'))
-    GROUP BY resources.id, ratings.rating;`, [req.session.user_id, req.query.search])
+    GROUP BY resources.id`, [req.session.user_id, req.query.search])
       .then(data => {
         const resources = data.rows;
         res.json({ resources });
@@ -171,6 +188,9 @@ console.log(req.query.search)
           .json({ error: err.message });
       });
   });
+
+
+
 
   return router;
 };
