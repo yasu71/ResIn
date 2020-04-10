@@ -28,5 +28,4 @@ $(() => {
   $newresource.on('click', (event) => {
     $('#new-resource').slideToggle(400);
   });
-
 });

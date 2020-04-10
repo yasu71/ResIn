@@ -11,14 +11,6 @@
 
 
     <!-- <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-    <!-- <script type="text/javascript" src="/scripts/app.js"></script> -->
-    <script type="text/javascript" src="/scripts/components/helper.js"></script>
-    <script type="text/javascript" src="/scripts/components/resourcelist.js"></script>
-    <script type="text/javascript" src="/scripts/components/searchform.js"></script>
-    <script type="text/javascript" src="/scripts/components/newresource.js"></script>
-    <script type="text/javascript" src="/vendor/starrr.js"></script>
 
   </head>
   <body>
@@ -29,21 +21,30 @@
 
 
     <section id="new-resource">
-        <form id="resource-form" method="POST" action="/resources/">
-          <label for="resource-text" id="resource-text">Add your Resource</label>
-          <br>
-          <textarea cols="40" wrap="hard" name="img_url" placeholder="Image URL" id="resources-img"></textarea>
-          <textarea cols="40" wrap="hard" name="url" placeholder="Resource URL"id="resources-url"></textarea>
-          <textarea cols="40" wrap="hard" name="title" placeholder="Resource Title"id="resources-title"></textarea>
-          <textarea cols="40" wrap="hard" name="description" placeholder="Resource Description" id="resources-description"></textarea>
-          <br>
-          <div class="btn-container">
-            <button id="resource-btn" type="submit">SAVE</button>
-          </div>
-        </form>
+      <form id="resource-form" method="POST" action="/resources/">
+        <label for="resource-text" id="resource-text">Add your Resource</label>
+        <br>
+        <textarea cols="40" wrap="hard" name="img_url" placeholder="Image URL" id="resources-img"></textarea>
+        <textarea cols="40" wrap="hard" name="url" placeholder="Resource URL"id="resources-url"></textarea>
+        <textarea cols="40" wrap="hard" name="title" placeholder="Resource Title"id="resources-title"></textarea>
+        <textarea cols="40" wrap="hard" name="description" placeholder="Resource Description" id="resources-description"></textarea>
+        <br>
+        <div class="btn-container">
+          <button id="resource-btn" type="submit">SAVE</button>
+        </div>
+      </form>
     </section>
     <h1 id="resource-header">Resources</h1>
-    <section id="resource-container"></section>
-    <script type="text/javascript" src="/scripts/components/addcomments.js"></script>
+    <section id="resource-container">
+    </section>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <!-- <script type="text/javascript" src="/scripts/app.js"></script> -->
+    <script type="text/javascript" src="/vendor/starrr.js"></script>
+    <script type="text/javascript" src="/scripts/components/helper.js"></script>
+    <script type="text/javascript" src="/scripts/components/resourcelist.js"></script>
+    <script type="text/javascript" src="/scripts/components/searchform.js"></script>
+    <script type="text/javascript" src="/scripts/components/newresource.js"></script>
+
   </body>
-</html>
+  </html>

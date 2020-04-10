@@ -99,21 +99,39 @@ const createResElement = function(resource) {
   // Comment elements
   const $comment = $('<textarea>').addClass('comment-text').attr('placeholder', 'Add Comment Here').attr('name', 'comment_box');
   const $commentbtn = $('<button>').addClass('comment-btn').text('SUBMIT').attr('type', 'submit');
-  const $formcomment = $('<form>').attr('id', 'comment-form').attr('method', 'POST').attr('action', '/comments');
+  const $formcomment = $('<form>').attr('id', 'comment-form').attr('method', 'POST').attr('action', '/comments').addClass('comment-form');
   const $postedcomment = $('<div>');
   const $hiddenresource = $('<input>').hide().attr("value", resource.id).attr('name', "resource_id");
+
 
   // Comment retrieval
   $.getJSON(`/comments/resource/${resourceId}`)
     .then((results) => {
-      for (const data of results) {
+      for (const data of results.reverse()) {
         $postedcomment.append($('<p>').text(data.comment).addClass('posts'));
 
-        //console.log(data.comment);
       }
     });
 
-  console.log($postedcomment);
+  $('#resource-container').one('submit', '.comment-form', function(event) {
+    event.preventDefault();
+
+    $myform = $(this);
+    let articleId = $myform.closest('.loaded-resource').attr('id');
+    if (resource.id == articleId) {
+      const formInfo = $myform.serialize();
+      //console.log(formInfo);
+
+      $.post('/comments', formInfo)
+        .then((response) => {
+          getUserId();
+          $('.comment-text').val("");
+        });
+
+    }
+
+
+  });
 
   //// START adding ratings elements with condition
   $.getJSON(`/users/me`)
