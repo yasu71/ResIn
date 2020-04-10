@@ -6,7 +6,7 @@ $(() => {
   $form.on('submit', (event) => {
     event.preventDefault();
 
-    const formInfo = $form.serialize();
+    const formInfo = ('#comment-form').val();
     console.log('this is in the form event for comments');
 
     $.post('/comments', formInfo)
@@ -14,8 +14,9 @@ $(() => {
         getUserId();
         $('.comment-text').val("");
       });
-      // $('')
-  });
+
+      res.redirect('/resources');
+    });
 
 
 

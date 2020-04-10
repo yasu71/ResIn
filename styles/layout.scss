@@ -207,7 +207,7 @@ body {
 
 .fa-heart{
   &:before{
-    font-size: 30px
+    font-size: 23px
   }
   &:hover {
     color: #ffc0cb;
@@ -219,14 +219,11 @@ body {
   justify-content: center;
   width: 100%;
   padding: 10px;
-  margin-top: 10px;
-  margin-left: 5%;
-  margin-right: 20%;
+  margin: 10px 5px 2px 5px;
   border: none;
   border-radius: 10px;
   outline: none;
   border-bottom: 2px solid #8f8fa0;
-  width: 90%;
   height: 100px;
   background-color: rgb(251, 245, 252);
   font-family: arial;
@@ -236,25 +233,37 @@ body {
 
 .comment-btn {
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: stretch;
-  flex-wrap: wrap;
-  flex: 2;
-  margin-left: 30px;
-  padding: 8px 12px;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: bold;
-  outline: none;
-  border: none;
-  background-color:#a86d96;
-  color: #fff;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px 15px;
+    margin: 0% 2%;
+    border-radius: 5px;
+    background-color:#a86d96;
+    color: #fff;
+    font-size: 14px;
+    letter-spacing: 2px;
+    font-weight: bold;
+    outline: none;
 }
-
 
 .comment-btn:hover {
   background-color: #545149;
 }
+
+.posts {
+  margin: 10% 2%;
+  border: 2px #919191;
+  background-color: #e4e4e7;
+  box-shadow: 0px 4px 8px 0px #797da1;
+  border-radius: 10px;
+  width: 100%;
+  padding: 10px;
+  font-size: 15px;
+  line-height: 20px;
+}
+
+
 
 
