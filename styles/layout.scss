@@ -187,23 +187,26 @@ body {
 
 .new-category{
   background-color: $primary-color;
-  padding: 5px;
+  padding: 5px 10px;
   line-height: 20px;
   color: #fff;
   display: block;
   margin: 10px;
-  width: 25%;
   border-radius: 15px;
   text-align: center;
 }
 
 .fa {
-  font-size: 25px;
   cursor: pointer;
   user-select: none;
   color: #dedede;
 }
 
-.fa-heart:hover {
-  color: #ffc0cb;
+.fa-heart{
+  &:before{
+    font-size: 30px
+  }
+  &:hover {
+    color: #ffc0cb;
+  }
 }

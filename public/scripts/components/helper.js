@@ -9,6 +9,7 @@ const loadResource = function(user_id) {
   $.getJSON(`/resources/user/${user_id}`)
   .then((results) => {
       renderResources(results);
+      console.log("results", results);
     });
 };
 
@@ -31,9 +32,11 @@ const renderResources = function(results) {
           for (const category of categories) {
             if (category.id == categoryChoice) {
               for (const resource of results['resources']) {
-                if (resource.id == getResourceId) {
-                  $.post(`/resources/user/${resource.user_id}/category/${categoryChoice}`,{resourceId: getResourceId});
+                if (resource.id == getResourceId) { $.getJSON('/users/me')
+                .then((userId) => {
+                  $.post(`/resources/user/${userId}/category/${categoryChoice}`,{resourceId: getResourceId});
                   return renderCategories($(this), category.name);
+                })
                 }
               }
             }
@@ -62,7 +65,15 @@ const renderResources = function(results) {
     let articleId = $heart.closest('.loaded-resource').attr('id');
     for (const resource of results['resources']) {
       if (resource.id == articleId) {
-        $.post(`/resources/user/${resource.user_id}/resource/${articleId}`);
+        $.getJSON('/likes')
+        .then((likes) => {
+          if (!likes.resource_id) {
+            $.getJSON('/users/me')
+              .then((userId) => {
+            $.post(`/resources/user/${userId}/resource/${articleId}`);
+          });
+          }
+        })
       }
     }
   });
@@ -76,35 +87,37 @@ const createResElement = function(resource) {
   const $url = $('<p>').text(resource.url).addClass('new-url');
   const $description = $('<p>').text(resource.description).addClass('resource-desc');
   const $footer = $('<p>').addClass('resource-footer');
+
   //// START adding ratings elements with condition
-  const $rating = $('<div>').addClass('starrr').attr({
-    id: 'star1',
-  }).starrr();
+  $.getJSON(`/users/me`)
+  .then((userId) => {
+    $.getJSON('/ratings')
+    .then((ratings) => {
+    let $ratingDiv = $('<div>')
+      for (let rating of ratings) {
+        if (resource.id === rating.resource_id) {
+          if (userId === rating.user_id){
+              $($ratingDiv).addClass('starrr').attr({
+                  id: 'star1',
+                }).starrr({rating: resource.rating});
+          $footer.append($ratingDiv);
+          }
+        }
+      }
+      $($ratingDiv).addClass('starrr').attr({
+        id: 'star1',
+      }).starrr({});
+      $footer.append($ratingDiv);
+    });
+  })
+  //// END ////
 
-
-  // $.getJSON('/ratings')
-  //   .then((ratings) => {
-  //     for (const rating of ratings) {
-  //       if (resource.id == rating.resource_id){
-  //         const $starContainer = $('.starrr');
-  //         // console.log("$starContainer.children('a'): ",$starContainer.children("a"))
-  //         for (i = 0; i < rating.rating; i ++) {
-  //           $starContainer.children("a")[i].css("color", "yellow");
-  //         }
-  //       } else {
-  //         $rating;
-  //       }
-  //     }
-  //   });
-
-
-  //// START Elements adding for Likes/Heart with condition
+  //// START Elements adding for Likes/Heart with condition. Only a user's Like is coloured to pink.
   const $heartContainer = $('<div>').addClass('heart-container');
   const $heart = $('<i>').addClass('fa fa-heart').attr("id", `heart-${resource.id}`);
   $.getJSON('/likes')
     .then((likes) => {
       for (const like of likes) {
-        console.log("resource", resource)
         $.getJSON(`/users/me`)
           .then((userId) => {
           if (resource.id === like.resource_id && userId === like.user_id){
@@ -117,6 +130,7 @@ const createResElement = function(resource) {
       }
     });
   //// END ////
+
   //// START Elements adding for category dropdown with condition. If cateogory already assigned to resources, category tag shows
   const $categoryDropdown = $("<div>").addClass("category-container").attr("id", "container-hide");
   if (resource.category_id) {
@@ -156,7 +170,6 @@ const createResElement = function(resource) {
   }
   //// END ////
 
-  $footer.append($rating);
   $heartContainer.append($heart);
   $article.append($image, $title, $url, $description, $footer, $heartContainer, $categoryDropdown);
 
@@ -172,3 +185,4 @@ const searchResource = function(input) {
       renderResources(results);
     });
 };
+

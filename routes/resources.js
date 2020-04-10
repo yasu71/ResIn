@@ -21,11 +21,12 @@ module.exports = (db) => {
   router.get("/user/:userid", (req, res) => {
     console.log('Resources Get Returned');
 
-    db.query(`SELECT resources.*, ratings.rating
+    db.query(`SELECT  resources.*, ratings.rating
     FROM resources
         FULL OUTER JOIN ratings ON resources.id = ratings.resource_id
         FULL OUTER JOIN likes ON resources.id = likes.resource_id
-        WHERE resources.user_id = $1 OR likes.user_id = $1;`, [`${req.params.userid}`])
+        WHERE resources.user_id = $1 OR likes.user_id = $1
+        ;`, [`${req.params.userid}`])
       .then(data => {
         const resources = data.rows;
         res.json({ resources });

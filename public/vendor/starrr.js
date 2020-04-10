@@ -61,12 +61,17 @@ var slice = [].slice;
 
       //// START Sending star ratings to server
       const $star = this.$el;
+      console.log("$star",$star);
       let resourceId = $star.closest('.loaded-resource').attr('id');
       $.getJSON('/resources')
       .then((resources) => {
         for (const resource of resources['resources']) {
           if(resource.id == resourceId){
-            $.post(`/resources/user/${resource.user_id}/rating/${rating}`, {resourceId: resource.id});
+            $.getJSON('/users/me')
+            .then((userId) => {
+            $.post(`/resources/user/${userId}/rating/${rating}`, {resourceId: resource.id});
+            $star.closest(".fa-satar").hide();
+            });
           }
         }
       });
