@@ -1,5 +1,4 @@
 a {
-  color: #428bca;
   text-decoration: none;
 }
 /*
@@ -1160,7 +1159,7 @@ mark,
   padding: .2em;
   background-color: #fcf8e3;
 } */
-.text-left {
+/* .text-left {
   text-align: left;
 }
 .text-right {
@@ -3692,8 +3691,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-tabs.nav-justified > .dropdown .dropdown-menu {
   top: auto;
   left: auto;
-}
-@media (min-width: 768px) {
+} */
+/* @media (min-width: 768px) {
   .nav-tabs.nav-justified > li {
     display: table-cell;
     width: 1%;
@@ -4588,8 +4587,8 @@ a.list-group-item.active > .badge,
 .jumbotron h1,
 .jumbotron .h1 {
   color: inherit;
-}
-.jumbotron p {
+} */
+/* .jumbotron p {
   margin-bottom: 15px;
   font-size: 21px;
   font-weight: 200;
@@ -5600,8 +5599,8 @@ button.close {
   margin-top: -5px;
   border-width: 5px 5px 5px 0;
   border-right-color: #000;
-}
-.tooltip.left .tooltip-arrow {
+} */
+/* .tooltip.left .tooltip-arrow {
   top: 50%;
   right: 0;
   margin-top: -5px;
@@ -6234,5 +6233,5 @@ button.close {
   .hidden-print {
     display: none !important;
   }
-}
+} */
 /*# sourceMappingURL=bootstrap.css.map */

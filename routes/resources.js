@@ -21,7 +21,7 @@ module.exports = (db) => {
   router.get("/user/:userid", (req, res) => {
     console.log('Resources Get Returned');
 
-    db.query(`SELECT resources.*, ratings.* FROM resources LEFT OUTER JOIN ratings ON resources.id = resource_id WHERE resources.user_id = $1`, [`${req.params.userid}`])
+    db.query(`SELECT resources.*, ratings.rating FROM resources LEFT OUTER JOIN ratings ON resources.id = resource_id WHERE resources.user_id = $1`, [`${req.params.userid}`])
       .then(data => {
         const resources = data.rows;
         res.json({ resources });
@@ -91,7 +91,7 @@ module.exports = (db) => {
 
   // adding category to a resource
   router.post("/user/:userid/category/:categoryid", (req, res) => {
-    console.log("category was added")
+    console.log("category was added");
     const resourceId = req.body.resourceId;
     const categoryId = req.params.categoryid;
     db.query(`
@@ -99,58 +99,58 @@ module.exports = (db) => {
     SET category_id = $2
     WHERE resources.id = $1
     ;`, [resourceId, categoryId])
-    .then(data => {
-      const resources = data.rows;
-      res.json({ resources });
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
-    });
+      .then(data => {
+        const resources = data.rows;
+        res.json({ resources });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
   });
 
 
   // adding Like to a resource
   router.post("/user/:userid/resource/:resourceid", (req, res) => {
-    console.log("Like was added")
+    console.log("Like was added");
     const user_id = req.params.userid;
     const resourceId = req.params.resourceid;
     db.query(`
     INSERT INTO likes (user_id, resource_id)
     VALUES ($1, $2)
     ;`, [user_id, resourceId])
-    .then(data => {
-      const resources = data.rows;
-      res.json({ resources });
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
-    });
+      .then(data => {
+        const resources = data.rows;
+        res.json({ resources });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
   });
 
   // adding ratings to a resource
   router.post("/user/:userid/rating/:rating", (req, res) => {
-    console.log("Rating was added")
+    console.log("Rating was added");
     const user_id = req.params.userid;
     const resourceId = req.body.resourceId;
-    const rating = req.params.rating
+    const rating = req.params.rating;
     db.query(`
     INSERT INTO ratings (user_id, resource_id, rating)
     VALUES ($1, $2, $3)
     ;`, [user_id, resourceId, rating])
-    .then(data => {
-      const resources = data.rows;
-      res.json({ resources });
-    })
-    .catch(err => {
-      console.log(err);
-      res
-        .status(500)
-        .json({ error: err.message });
-    });
+      .then(data => {
+        const resources = data.rows;
+        res.json({ resources });
+      })
+      .catch(err => {
+        console.log(err);
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
   });
 
   return router;

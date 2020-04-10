@@ -12,7 +12,7 @@ $(() => {
 
     // Form data formatted into query string using serialize
     const formInfo = $form.serialize();
-    console.log(formInfo)
+    console.log('this is in the newresource ', formInfo)
 
     $.post('/resources', formInfo)
       .then((response) => {

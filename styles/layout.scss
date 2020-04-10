@@ -159,20 +159,22 @@ body {
      }
    }
   //  Rating Stars
+  // #star1 {
+  //   display: grid;
+  //   width: 30%;
+  // }
+
   .starrr a {
-    display: inline;
     color: rgb(243, 179, 16);;
     text-decoration: none;
     font-size: 20px;
-    padding: 0 1px;
     cursor: pointer;
   }
 }
 
 
 .category-container {
-  display: flex;
-  justify-content: flex-end;
+  display: inline-grid;
 
   form {
 
@@ -192,7 +194,7 @@ body {
   color: #fff;
   display: block;
   margin: 10px;
-  width: 25%;
+  width: 90%;
   border-radius: 15px;
   text-align: center;
 }
@@ -207,3 +209,48 @@ body {
 .fa-heart:hover {
   color: #ffc0cb;
 }
+
+.comment-text {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  margin-left: 5%;
+  margin-right: 20%;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  border-bottom: 2px solid #8f8fa0;
+  width: 90%;
+  height: 100px;
+  background-color: rgb(251, 245, 252);
+  font-family: arial;
+  font-size: 14px;
+  color: #545149;
+}
+
+.comment-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: stretch;
+  flex-wrap: wrap;
+  flex: 2;
+  margin-left: 30px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  outline: none;
+  border: none;
+  background-color:#a86d96;
+  color: #fff;
+}
+
+
+.comment-btn:hover {
+  background-color: #545149;
+}
+
+
