@@ -9,7 +9,7 @@ const loadResource = function(user_id) {
   $.getJSON(`/resources/user/${user_id}`)
   .then((results) => {
       renderResources(results);
-      console.log("results", results);
+      // console.log("results", results);
     });
 };
 
@@ -35,10 +35,10 @@ const renderResources = function(results) {
             if (category.id == categoryChoice) {
               for (const resource of results['resources']) {
                 if (resource.id == getResourceId) { $.getJSON('/users/me')
-                .then((userId) => {
-                  $.post(`/resources/user/${userId}/category/${categoryChoice}`,{resourceId: getResourceId});
-                  return renderCategories($(this), category.name);
-                })
+                  .then((userId) => {
+                    $.post(`/resources/user/${userId}/category/${categoryChoice}`,{resourceId: getResourceId});
+                    return renderCategories($(this), category.name);
+                  });
                 }
               }
             }
@@ -48,7 +48,6 @@ const renderResources = function(results) {
     getCategory(selectedCategoryId);
   });
 
-
   //Shows category tag and hide dropdown
   const renderCategories = ($select, result) => {
     container = $select.closest('.category-container');
@@ -57,13 +56,11 @@ const renderResources = function(results) {
     container.append($category);
   };
 
-
   //Created category tag
   const createNewCategory = category => {
     const $newCategory = $('<div>').addClass('new-category').text(category);
     return $newCategory;
   };
-
 
   //// END Add category with dropdown(s)
   //// START Like/Heart turns to pink
@@ -74,14 +71,14 @@ const renderResources = function(results) {
     for (const resource of results['resources']) {
       if (resource.id == articleId) {
         $.getJSON('/likes')
-        .then((likes) => {
-          if (!likes.resource_id) {
-            $.getJSON('/users/me')
-              .then((userId) => {
-            $.post(`/resources/user/${userId}/resource/${articleId}`);
+          .then((likes) => {
+            if (!likes.resource_id) {
+              $.getJSON('/users/me')
+                .then((userId) => {
+                  $.post(`/resources/user/${userId}/resource/${articleId}`);
+                });
+            }
           });
-          }
-        })
       }
     }
   });
@@ -94,50 +91,75 @@ const createResElement = function(resource) {
   const $article = $('<article>').addClass('loaded-resource').attr("id", resource.id);
   const $title = $('<p>').text(resource.title).addClass('resource-title');
   const $image = $('<img>').attr("src",resource.img_url).addClass('img-url');
-  const $commenticon = $('<i>').addClass('fa fa-comments').attr('aria-hidden', 'true');
+  const $commenticon = $('<i>').addClass('fa fa-comments');
   const $url = $('<p>').text(resource.url).addClass('new-url');
   const $description = $('<p>').text(resource.description).addClass('resource-desc');
-
   const $footer = $('<p>').addClass('resource-footer');
 
   // Comment elements
   const $comment = $('<textarea>').addClass('comment-text').attr('placeholder', 'Add Comment Here').attr('name', 'comment_box');
   const $commentbtn = $('<button>').addClass('comment-btn').text('SUBMIT').attr('type', 'submit');
-  const $formcomment = $('<form>').attr('id', 'comment-form').attr('method', 'POST').attr('action', '/comments');
-  const $postedcomment = $('<p>').addClass('posts');
+  const $formcomment = $('<form>').attr('id', 'comment-form').attr('method', 'POST').attr('action', '/comments').addClass('comment-form');
+  const $postedcomment = $('<div>');
   const $hiddenresource = $('<input>').hide().attr("value", resource.id).attr('name', "resource_id");
 
+
+  // Comment retrieval
   $.getJSON(`/comments/resource/${resourceId}`)
-  .then((results) => {
-    for (const data of results) {
-      $postedcomment.text(data.comment);
-      //console.log(data.comment);
+    .then((results) => {
+      for (const data of results.reverse()) {
+        $postedcomment.append($('<p>').text(data.comment).addClass('posts'));
 
       }
     });
+
+  $('#resource-container').one('submit', '.comment-form', function(event) {
+    event.preventDefault();
+
+    $myform = $(this);
+    let articleId = $myform.closest('.loaded-resource').attr('id');
+    if (resource.id == articleId) {
+      const formInfo = $myform.serialize();
+      //console.log(formInfo);
+
+      $.post('/comments', formInfo)
+        .then((response) => {
+          getUserId();
+          $('.comment-text').val("");
+        });
+    }
+  });
+
+  $('#resource-container').on('click', '.fa-comments', function(event) {
+    $myicon = $(this);
+    let articleId = $myicon.closest('.loaded-resource').attr('id');
+    if (resource.id == articleId) {
+      $myicon.siblings('.comment-form').slideToggle(400);
+    }
+  });
 
   //// START adding ratings elements with condition
   $.getJSON(`/users/me`)
-  .then((userId) => {
-    $.getJSON('/ratings')
-    .then((ratings) => {
-    let $ratingDiv = $('<div>')
-      for (let rating of ratings) {
-        if (resource.id === rating.resource_id) {
-          if (userId === rating.user_id){
-            $($ratingDiv).addClass('starrr').attr({
-                id: 'star1',
-              }).starrr({rating: resource.rating});
-            $footer.append($ratingDiv);
+    .then((userId) => {
+      $.getJSON('/ratings')
+        .then((ratings) => {
+          let $ratingDiv = $('<div>');
+          for (let rating of ratings) {
+            if (resource.id === rating.resource_id) {
+              if (userId === rating.user_id) {
+                $($ratingDiv).addClass('starrr').attr({
+                  id: 'star1',
+                }).starrr({rating: resource.rating});
+                $footer.append($ratingDiv);
+              }
+            }
           }
-        }
-      }
-      $($ratingDiv).addClass('starrr').attr({
-        id: 'star1',
-      }).starrr({});
-      $footer.append($ratingDiv);
+          $($ratingDiv).addClass('starrr').attr({
+            id: 'star1',
+          }).starrr({});
+          $footer.append($ratingDiv);
+        });
     });
-  })
   //// END ////
 
   //// START Elements adding for Likes/Heart with condition. Only a user's Like is coloured to pink.
@@ -149,13 +171,13 @@ const createResElement = function(resource) {
       for (const like of likes) {
         $.getJSON(`/users/me`)
           .then((userId) => {
-          if (resource.id === like.resource_id && userId === like.user_id){
-            $heart.css("color", "pink");
-            $heartContainer.append($heart)
-          } else {
-          $heartContainer.append($heart)
-          }
-        })
+            if (resource.id === like.resource_id && userId === like.user_id) {
+              $heart.css("color", "pink");
+              $heartContainer.append($heart);
+            } else {
+              $heartContainer.append($heart);
+            }
+          });
       }
     });
   //// END ////
@@ -199,9 +221,9 @@ const createResElement = function(resource) {
   }
   //// END ////
 
-  $formcomment.append($comment, $hiddenresource, '<br>', $commentbtn, $postedcomment);
+  $formcomment.append($comment, $hiddenresource, '<br>', $commentbtn);
   $heartContainer.append($heart);
-  $article.append($image, '<br>', $heartContainer, $commenticon, $title, $url, $description,  $footer, $categoryDropdown, '<br>', $formcomment);
+  $article.append($image, '<br>', $heartContainer, $commenticon, $title, $url, $description,  $footer, $categoryDropdown, '<br>', $formcomment, '<br>', $postedcomment);
 
   return $article;
 };
