@@ -97,10 +97,10 @@ const createResElement = function(resource) {
       for (let rating of ratings) {
         if (resource.id === rating.resource_id) {
           if (userId === rating.user_id){
-              $($ratingDiv).addClass('starrr').attr({
-                  id: 'star1',
-                }).starrr({rating: resource.rating});
-          $footer.append($ratingDiv);
+            $($ratingDiv).addClass('starrr').attr({
+                id: 'star1',
+              }).starrr({rating: resource.rating});
+            $footer.append($ratingDiv);
           }
         }
       }
