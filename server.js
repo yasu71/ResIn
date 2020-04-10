@@ -44,6 +44,7 @@ const resourcesRoutes = require("./routes/resources");
 const loginRoutes = require("./routes/login");
 const categoryRoutes = require("./routes/categories");
 const categoryLikes = require("./routes/likes.js");
+const categoryRatings = require("./routes/ratings.js");
 
 
 // Mount all resource routes
@@ -53,6 +54,7 @@ app.use("/resources", resourcesRoutes(db));
 app.use("/login", loginRoutes(db));
 app.use("/categories", categoryRoutes(db));
 app.use("/likes", categoryLikes(db));
+app.use("/ratings", categoryRatings(db));
 
 
 // Note: mount other resources here, using the same pattern above

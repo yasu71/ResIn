@@ -7,15 +7,15 @@ const getUserId = () => {
 
 const loadResource = function(user_id) {
   $.getJSON(`/resources/user/${user_id}`)
-    .then((results) => {
-      // console.log(results)
+  .then((results) => {
       renderResources(results);
+      console.log("results", results);
     });
 };
 
 const renderResources = function(results) {
   $('#resource-container').empty();
-  // console.log(results['resources'])
+  console.log("results['resources']",results['resources'])
   for (const resource of results['resources']) {
     let $resource = createResElement(resource);
     $('#resource-container').append($resource);
@@ -32,9 +32,11 @@ const renderResources = function(results) {
           for (const category of categories) {
             if (category.id == categoryChoice) {
               for (const resource of results['resources']) {
-                if (resource.id == getResourceId) {
-                  $.post(`/resources/user/${resource.user_id}/category/${categoryChoice}`,{resourceId: getResourceId});
+                if (resource.id == getResourceId) { $.getJSON('/users/me')
+                .then((userId) => {
+                  $.post(`/resources/user/${userId}/category/${categoryChoice}`,{resourceId: getResourceId});
                   return renderCategories($(this), category.name);
+                })
                 }
               }
             }
@@ -63,39 +65,73 @@ const renderResources = function(results) {
     let articleId = $heart.closest('.loaded-resource').attr('id');
     for (const resource of results['resources']) {
       if (resource.id == articleId) {
-        $.post(`/resources/user/${resource.user_id}/resource/${articleId}`);
+        $.getJSON('/likes')
+        .then((likes) => {
+          if (!likes.resource_id) {
+            $.getJSON('/users/me')
+              .then((userId) => {
+            $.post(`/resources/user/${userId}/resource/${articleId}`);
+          });
+          }
+        })
       }
     }
   });
   //// END Like/Heart turns to pink
 };
+
 const createResElement = function(resource) {
   const $article = $('<article>').addClass('loaded-resource').attr("id", resource.id);
   const $title = $('<p>').text(resource.title).addClass('resource-title');
   const $image = $('<img>').attr("src",resource.img_url).addClass('img-url');
   const $url = $('<p>').text(resource.url).addClass('new-url');
   const $description = $('<p>').text(resource.description).addClass('resource-desc');
-  const $rating = $('<div>').addClass('starrr').attr({
-    id: 'star1',
-  }).starrr();
   const $footer = $('<p>').addClass('resource-footer');
 
-  //// START adding Likes/Heart elements with condition
+  //// START adding ratings elements with condition
+  $.getJSON(`/users/me`)
+  .then((userId) => {
+    $.getJSON('/ratings')
+    .then((ratings) => {
+    let $ratingDiv = $('<div>')
+      for (let rating of ratings) {
+        if (resource.id === rating.resource_id) {
+          if (userId === rating.user_id){
+              $($ratingDiv).addClass('starrr').attr({
+                  id: 'star1',
+                }).starrr({rating: resource.rating});
+          $footer.append($ratingDiv);
+          }
+        }
+      }
+      $($ratingDiv).addClass('starrr').attr({
+        id: 'star1',
+      }).starrr({});
+      $footer.append($ratingDiv);
+    });
+  })
+  //// END ////
+
+  //// START Elements adding for Likes/Heart with condition. Only a user's Like is coloured to pink.
   const $heartContainer = $('<div>').addClass('heart-container');
   const $heart = $('<i>').addClass('fa fa-heart').attr("id", `heart-${resource.id}`);
   $.getJSON('/likes')
     .then((likes) => {
       for (const like of likes) {
-        if (resource.id === like.resource_id){
-          $heart.css("color", "pink");
+        $.getJSON(`/users/me`)
+          .then((userId) => {
+          if (resource.id === like.resource_id && userId === like.user_id){
+            $heart.css("color", "pink");
+            $heartContainer.append($heart)
+          } else {
           $heartContainer.append($heart)
-        } else {
-        $heartContainer.append($heart)
-        }
+          }
+        })
       }
     });
   //// END ////
-  //// START adding category dropdown with condition
+
+  //// START Elements adding for category dropdown with condition. If cateogory already assigned to resources, category tag shows
   const $categoryDropdown = $("<div>").addClass("category-container").attr("id", "container-hide");
   if (resource.category_id) {
     $.getJSON('/categories')
@@ -134,7 +170,6 @@ const createResElement = function(resource) {
   }
   //// END ////
 
-  $footer.append($rating);
   $heartContainer.append($heart);
   $article.append($image, $title, $url, $description, $footer, $heartContainer, $categoryDropdown);
 
@@ -150,3 +185,4 @@ const searchResource = function(input) {
       renderResources(results);
     });
 };
+

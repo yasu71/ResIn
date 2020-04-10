@@ -32,3 +32,4 @@ $(() => {
   });
 
 });
+// Select resource_id, avg(rating) from "public"."ratings" group by resource_id
