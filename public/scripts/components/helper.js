@@ -235,7 +235,7 @@ const createResElement = function(resource) {
   $imgATag.append($image, $imageOverlay);
   $imgDiv.append($imgATag);
   $title.append($titleLink);
-  $article.append($imgDiv, '<br>', $heartContainer, $commenticon, $title, $url, $description,  $footer, $categoryDropdown, '<br>', $formcomment, '<br>', $postedcomment;
+  $article.append($imgDiv, '<br>', $heartContainer, $commenticon, $title, $url, $description,  $footer, $categoryDropdown, '<br>', $formcomment, '<br>', $postedcomment);
 
 
   return $article;
