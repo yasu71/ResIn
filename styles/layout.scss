@@ -11,6 +11,7 @@ body {
 
   h1 {
     color: $text-color;
+    font-size: 40px;
   }
 
   #new-resource{
@@ -36,9 +37,7 @@ body {
 
   #resources-img {
     padding: 10px;
-    margin-top: 10px;
-    margin-left: 5%;
-    margin-right: 20%;
+    margin: 10px 20% 0 5%;
     border: none;
     outline: none;
     resize: none;
@@ -51,13 +50,12 @@ body {
     font-family: arial;
     font-size: 14px;
     color: #545149;
+    line-height: 27px;
   }
 
   #resources-url {
     padding: 10px;
-    margin-top: 10px;
-    margin-left: 5%;
-    margin-right: 20%;
+    margin: 10px 20% 0 5%;
     border: none;
     outline: none;
     resize: none;
@@ -69,13 +67,12 @@ body {
     font-family: arial;
     font-size: 14px;
     color: #545149;
+    line-height: 27px;
   }
 
   #resources-title {
     padding: 10px;
-    margin-top: 10px;
-    margin-left: 5%;
-    margin-right: 20%;
+    margin: 10px 20% 0 5%;
     border: none;
     outline: none;
     resize: none;
@@ -87,6 +84,7 @@ body {
     font-family: arial;
     font-size: 14px;
     color: #545149;
+    line-height: 27px;
   }
 
   #resources-description {
@@ -175,6 +173,7 @@ body {
 
 .category-container {
   display: inline-grid;
+  float: right;
 
   form {
 
@@ -185,18 +184,17 @@ body {
       height: 35px;
     }
   }
-}
 
-.new-category{
-  background-color: $primary-color;
-  padding: 5px 10px;
-  line-height: 20px;
-  color: #fff;
-  display: block;
-  margin: 10px;
-  width: 90%;
-  border-radius: 15px;
-  text-align: center;
+  .new-category{
+    background-color: $primary-color;
+    padding: 5px 17px;
+    line-height: 20px;
+    color: #fff;
+    display: block;
+    margin: 10px;
+    border-radius: 15px;
+    text-align: center;
+  }
 }
 
 .fa {
@@ -220,13 +218,10 @@ body {
   width: 100%;
   padding: 10px;
   margin-top: 10px;
-  margin-left: 5%;
-  margin-right: 20%;
   border: none;
   border-radius: 10px;
   outline: none;
   border-bottom: 2px solid #8f8fa0;
-  width: 90%;
   height: 100px;
   background-color: rgb(251, 245, 252);
   font-family: arial;
@@ -241,7 +236,7 @@ body {
   align-items: stretch;
   flex-wrap: wrap;
   flex: 2;
-  margin-left: 30px;
+  margin:auto;
   padding: 8px 12px;
   border-radius: 5px;
   font-size: 16px;
