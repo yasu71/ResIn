@@ -91,7 +91,7 @@ const createResElement = function(resource) {
   const $article = $('<article>').addClass('loaded-resource').attr("id", resource.id);
   const $title = $('<p>').text(resource.title).addClass('resource-title');
   const $image = $('<img>').attr("src",resource.img_url).addClass('img-url');
-  const $commenticon = $('<i>').addClass('fa fa-comments').attr('aria-hidden', 'true');
+  const $commenticon = $('<i>').addClass('fa fa-comments');
   const $url = $('<p>').text(resource.url).addClass('new-url');
   const $description = $('<p>').text(resource.description).addClass('resource-desc');
   const $footer = $('<p>').addClass('resource-footer');
@@ -127,10 +127,15 @@ const createResElement = function(resource) {
           getUserId();
           $('.comment-text').val("");
         });
-
     }
+  });
 
-
+  $('#resource-container').on('click', '.fa-comments', function(event) {
+    $myicon = $(this);
+    let articleId = $myicon.closest('.loaded-resource').attr('id');
+    if (resource.id == articleId) {
+      $myicon.siblings('.comment-form').slideToggle(400);
+    }
   });
 
   //// START adding ratings elements with condition

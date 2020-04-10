@@ -26,6 +26,6 @@ $(() => {
   });
 
   $newresource.on('click', (event) => {
-    $('#new-resource').slideToggle(400);
+    $('#new-resource').slideToggle(300);
   });
 });

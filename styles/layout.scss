@@ -73,6 +73,8 @@ body {
 
   #resources-title {
     padding: 10px;
+    word-break: break-all;
+    flex-wrap: wrap;
     margin-top: 10px;
     margin-left: 5%;
     margin-right: 20%;
@@ -81,7 +83,7 @@ body {
     resize: none;
     border-bottom: 2px solid #8f8fa0;
     border-radius: 10px;
-    width: 90%;
+    width: 85%;
     height: 50px;
     background-color: #fff;
     font-family: arial;
@@ -175,6 +177,7 @@ body {
 
 .category-container {
   display: inline-grid;
+  float: right;
 
   form {
 
@@ -215,7 +218,7 @@ body {
 }
 
 .comment-form {
-  display: hidden;
+  display: none;
 }
 
 .comment-text {
