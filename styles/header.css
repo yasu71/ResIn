@@ -33,7 +33,7 @@ article {
   margin: 15px 10px;
   word-break: keep-all;
   width: 30%;
-  height: 600px;
+  height: 475px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   float: left;
@@ -50,7 +50,7 @@ article {
 
 article .img-url {
   width: 100%;
-  height: 55%;
+  height: 65%;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -62,19 +62,13 @@ article .fa-heart {
   margin-left: 5px;
 }
 
-article .fa-comments {
-  position: relative;
-  float: right;
-  margin-left: 7px;
-  color: #7c3d78;
-}
-
-article .resource-title {
+article .resource-title a{
   height: 70px;
   width: 80%;
   font-weight: bold;
-  font-size: 17px;
+  font-size: 20px;
   padding-bottom: 15px;
+  text-decoration: none;
 }
 
 article .new-url {
@@ -216,22 +210,20 @@ article .fa-comments {
   float: right;
   margin-left: 7px;
   color: #7c3d78;
-  font-size: 32px;
+  font-size: 20px;
 }
 
-article .resource-title {
+article .resource-title a{
   height: 70px;
   width: 80%;
   font-weight: bold;
   font-size: 17px;
   padding-bottom: 15px;
+  color: #4a4a4a;
+  line-height: 30px;
+  }
 }
 
-article .resource-title a {
-  color: #4a4a4a;
-  font-size: 25px;
-  line-height: 30px;
-}
 
 article .resource-title a:hover {
   color: #c188aa;
