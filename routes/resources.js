@@ -21,12 +21,22 @@ module.exports = (db) => {
   router.get("/user/:userid", (req, res) => {
     console.log('Resources Get Returned');
 
+
     db.query(`SELECT resources.*, ratings.rating FROM resources LEFT OUTER JOIN ratings ON resources.id = resource_id WHERE resources.user_id = $1`, [`${req.params.userid}`])
+
+    //db.query(`SELECT  resources.*, ratings.rating
+    //FROM resources
+    //FULL OUTER JOIN ratings ON resources.id = ratings.resource_id
+    //FULL OUTER JOIN likes ON resources.id = likes.resource_id
+    //WHERE resources.user_id = $1 OR likes.user_id = $1
+    //;`, [`${req.params.userid}`])
+
       .then(data => {
         const resources = data.rows;
         res.json({ resources });
       })
       .catch(err => {
+        console.log({ error: err.message })
         res
           .status(500)
           .json({ error: err.message });
@@ -35,14 +45,20 @@ module.exports = (db) => {
 
   // Get request for the search feature,  search will convert table data and input to lowercase to compare before returning results to the searchform.js
   router.get("/search", (req, res) => {
+console.log(req.query.search)
 
-
-    db.query(`SELECT resources.*, ratings.* FROM resources FULL OUTER JOIN ratings ON resources.id = resource_id WHERE LOWER(resources.title) LIKE LOWER($1) OR resources.description LIKE LOWER($1)`, [`%${req.query.search}%`])
+    db.query(`SELECT resources.*, ratings.rating, COUNT(liked.id) as liked_bool
+    FROM resources
+    FULL OUTER JOIN ratings ON resources.id = ratings.resource_id
+    FULL OUTER JOIN (SELECT likes.id, likes.resource_id FROM likes WHERE likes.user_id = $1) as liked ON resources.id = liked.resource_id
+    WHERE (LOWER(resources.title) LIKE LOWER('%' || $2 || '%') OR resources.description LIKE LOWER('%' || $2 || '%'))
+    GROUP BY resources.id, ratings.rating;`, [req.session.user_id, req.query.search])
       .then(data => {
         const resources = data.rows;
         res.json({ resources });
       })
       .catch(err => {
+        console.log({ error: err.message })
         res
           .status(500)
           .json({ error: err.message });
@@ -98,6 +114,7 @@ module.exports = (db) => {
     UPDATE resources
     SET category_id = $2
     WHERE resources.id = $1
+    RETURNING *
     ;`, [resourceId, categoryId])
       .then(data => {
         const resources = data.rows;
@@ -119,6 +136,7 @@ module.exports = (db) => {
     db.query(`
     INSERT INTO likes (user_id, resource_id)
     VALUES ($1, $2)
+    RETURNING *
     ;`, [user_id, resourceId])
       .then(data => {
         const resources = data.rows;
@@ -140,6 +158,7 @@ module.exports = (db) => {
     db.query(`
     INSERT INTO ratings (user_id, resource_id, rating)
     VALUES ($1, $2, $3)
+    RETURNING *
     ;`, [user_id, resourceId, rating])
       .then(data => {
         const resources = data.rows;
