@@ -15,10 +15,12 @@ const loadResource = function(user_id) {
 
 const renderResources = function(results) {
   $('#resource-container').empty();
-  console.log("results['resources']",results['resources'])
+  //console.log(results['resources'])
   for (const resource of results['resources']) {
+    //console.log(resource)
     let $resource = createResElement(resource);
     $('#resource-container').append($resource);
+
   }
   //// START Add category with dropdown(s)
   $('#resource-container').on('change', '.categorySelect', function(event) {
@@ -45,6 +47,8 @@ const renderResources = function(results) {
     };
     getCategory(selectedCategoryId);
   });
+
+
   //Shows category tag and hide dropdown
   const renderCategories = ($select, result) => {
     container = $select.closest('.category-container');
@@ -52,11 +56,15 @@ const renderResources = function(results) {
     let $category = createNewCategory(result);
     container.append($category);
   };
+
+
   //Created category tag
   const createNewCategory = category => {
     const $newCategory = $('<div>').addClass('new-category').text(category);
     return $newCategory;
   };
+
+
   //// END Add category with dropdown(s)
   //// START Like/Heart turns to pink
   $('#resource-container').on('click', '.fa-heart', function(event) {
@@ -81,12 +89,32 @@ const renderResources = function(results) {
 };
 
 const createResElement = function(resource) {
+  const resourceId = resource.id;
+  //console.log(resourceId)
   const $article = $('<article>').addClass('loaded-resource').attr("id", resource.id);
   const $title = $('<p>').text(resource.title).addClass('resource-title');
   const $image = $('<img>').attr("src",resource.img_url).addClass('img-url');
+  const $commenticon = $('<i>').addClass('fa fa-comments').attr('aria-hidden', 'true');
   const $url = $('<p>').text(resource.url).addClass('new-url');
   const $description = $('<p>').text(resource.description).addClass('resource-desc');
+
   const $footer = $('<p>').addClass('resource-footer');
+
+  // Comment elements
+  const $comment = $('<textarea>').addClass('comment-text').attr('placeholder', 'Add Comment Here').attr('name', 'comment_box');
+  const $commentbtn = $('<button>').addClass('comment-btn').text('SUBMIT').attr('type', 'submit');
+  const $formcomment = $('<form>').attr('id', 'comment-form').attr('method', 'POST').attr('action', '/comments');
+  const $postedcomment = $('<p>').addClass('posts');
+  const $hiddenresource = $('<input>').hide().attr("value", resource.id).attr('name', "resource_id");
+
+  $.getJSON(`/comments/resource/${resourceId}`)
+  .then((results) => {
+    for (const data of results) {
+      $postedcomment.text(data.comment);
+      //console.log(data.comment);
+
+      }
+    });
 
   //// START adding ratings elements with condition
   $.getJSON(`/users/me`)
@@ -113,6 +141,7 @@ const createResElement = function(resource) {
   //// END ////
 
   //// START Elements adding for Likes/Heart with condition. Only a user's Like is coloured to pink.
+
   const $heartContainer = $('<div>').addClass('heart-container');
   const $heart = $('<i>').addClass('fa fa-heart').attr("id", `heart-${resource.id}`);
   $.getJSON('/likes')
@@ -135,53 +164,56 @@ const createResElement = function(resource) {
   const $categoryDropdown = $("<div>").addClass("category-container").attr("id", "container-hide");
   if (resource.category_id) {
     $.getJSON('/categories')
-    .then((categories) => {
-      for (const category of categories) {
-        if (resource.category_id == category.id) {
-          const $newCategory = $('<div>').addClass('new-category').text(category.name);
-          $categoryDropdown.append($newCategory);
+      .then((categories) => {
+        for (const category of categories) {
+          if (resource.category_id == category.id) {
+            const $newCategory = $('<div>').addClass('new-category').text(category.name);
+            $categoryDropdown.append($newCategory);
+          }
         }
-      }
-    })
+      });
   } else {
-  const $rust = $("<option>").attr("value", 11).text("Rust");
-  const $bash = $("<option>").attr("value", 10).text("Bash");
-  const $html = $("<option>").attr("value", 9).text("HTML");
-  const $jQuery = $("<option>").attr("value", 8).text("JQuery");
-  const $java = $("<option>").attr("value", 7).text("Java");
-  const $sql = $("<option>").attr("value", 6).text("SQL");
-  const $css = $("<option>").attr("value", 5).text("CSS");
-  const $C = $("<option>").attr("value", 4).text("C++");
-  const $python = $("<option>").attr("value", 3).text("python");
-  const $ruby = $("<option>").attr("value", 2).text("ruby");
-  const $javascript = $("<option>").attr("value", 1).text("Javascript");
-  const $addCategoryLabel = $("<option>").attr("value", 0).text("Add Category");
-  const $dropdownSelect = $("<select>").addClass("categorySelect").attr("name", 'category');
-  $dropdownSelect.append($addCategoryLabel, $javascript, $ruby, $python, $C, $css, $sql, $java, $jQuery, $html, $bash, $rust);
+    const $rust = $("<option>").attr("value", 11).text("Rust");
+    const $bash = $("<option>").attr("value", 10).text("Bash");
+    const $html = $("<option>").attr("value", 9).text("HTML");
+    const $jQuery = $("<option>").attr("value", 8).text("JQuery");
+    const $java = $("<option>").attr("value", 7).text("Java");
+    const $sql = $("<option>").attr("value", 6).text("SQL");
+    const $css = $("<option>").attr("value", 5).text("CSS");
+    const $C = $("<option>").attr("value", 4).text("C++");
+    const $python = $("<option>").attr("value", 3).text("python");
+    const $ruby = $("<option>").attr("value", 2).text("ruby");
+    const $javascript = $("<option>").attr("value", 1).text("Javascript");
+    const $addCategoryLabel = $("<option>").attr("value", 0).text("Add Category");
+    const $dropdownSelect = $("<select>").addClass("categorySelect").attr("name", 'category');
+    $dropdownSelect.append($addCategoryLabel, $javascript, $ruby, $python, $C, $css, $sql, $java, $jQuery, $html, $bash, $rust);
 
-  const $input = $("<input>").attr("type", "hidden").attr("name", "resource_id").attr("value", resource.id);
-  const $categoryForm = $("<form>").attr("action", `/resource/user/${resource.user_id}`).attr("method", "POST");
-  $categoryForm.append($dropdownSelect, $input);
+    const $input = $("<input>").attr("type", "hidden").attr("name", "resource_id").attr("value", resource.id);
+    const $categoryForm = $("<form>").attr("action", `/resource/user/${resource.user_id}`).attr("method", "POST");
+    $categoryForm.append($dropdownSelect, $input);
 
-  const $div =$("<div>").attr("id", "demo");
-  $article.append($div);
-  $categoryDropdown.append($categoryForm);
-  $categoryForm.append($dropdownSelect, $input);
+    const $div =$("<div>").attr("id", "demo");
+    $article.append($div);
+    $categoryDropdown.append($categoryForm).addClass('dropdown-cat');
+    $categoryForm.append($dropdownSelect, $input);
   }
   //// END ////
 
+  $formcomment.append($comment, $hiddenresource, '<br>', $commentbtn, $postedcomment);
   $heartContainer.append($heart);
-  $article.append($image, $title, $url, $description, $footer, $heartContainer, $categoryDropdown);
+  $article.append($image, '<br>', $heartContainer, $commenticon, $title, $url, $description,  $footer, $categoryDropdown, '<br>', $formcomment);
 
   return $article;
 };
 
+
+// Passing through search keyword data from endpoint to renderResources
 const searchResource = function(input) {
   const query = `search=${input}`;
 
   $.getJSON('/resources/search', query)
     .then((results) => {
-      console.log(results)
+      console.log(results);
       renderResources(results);
     });
 };
