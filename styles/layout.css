@@ -399,7 +399,7 @@ body .starrr a {
   line-height: 20px;
   color: #fff;
   display: block;
-  margin: 10px;
+  margin: 10px 0;
   border-radius: 15px;
   text-align: center;
 }
@@ -433,7 +433,6 @@ body .starrr a {
       -ms-flex-pack: center;
           justify-content: center;
   padding: 10px;
-  margin: 10px 5px 2px 5px;
   width: 100%;
   border: none;
   border-radius: 10px;
@@ -461,7 +460,6 @@ body .starrr a {
           align-items: center;
   width: 100%;
   padding: 10px 15px;
-  margin: 0% 2%;
   border-radius: 5px;
   background-color: #a86d96;
   color: #fff;
