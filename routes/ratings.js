@@ -7,16 +7,15 @@ module.exports = (db) => {
     db.query(`
     SELECT * FROM ratings
     ;`)
-    .then(data => {
-      const catgories = data.rows;
-      res.json(catgories);
-    })
-    .catch(err => {
-      console.log({ error: err.message })
-      res
-        .status(500)
-        .json({ error: err.message });
-    });
+      .then(data => {
+        const catgories = data.rows;
+        res.json(catgories);
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
   });
   return router;
 };

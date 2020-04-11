@@ -64,17 +64,17 @@ var slice = [].slice;
       console.log("$star",$star);
       let resourceId = $star.closest('.loaded-resource').attr('id');
       $.getJSON('/resources')
-      .then((resources) => {
-        for (const resource of resources['resources']) {
-          if(resource.id == resourceId){
-            $.getJSON('/users/me')
-            .then((userId) => {
-            $.post(`/resources/user/${userId}/rating/${rating}`, {resourceId: resource.id});
-            $star.closest(".fa-satar").hide();
-            });
+        .then((resources) => {
+          for (const resource of resources['resources']) {
+            if (resource.id == resourceId) {
+              $.getJSON('/users/me')
+                .then((userId) => {
+                  $.post(`/resources/user/${userId}/rating/${rating}`, {resourceId: resource.id});
+                  $star.closest(".fa-satar").hide();
+                });
+            }
           }
-        }
-      });
+        });
       //// END Sending star ratings to server
 
       return this.$el.trigger('starrr:change', rating);

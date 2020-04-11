@@ -5,7 +5,7 @@ module.exports = (db) => {
 
   router.get("/", (req, res) => {
     req.session.user_id = req.params.id;
-    res.render("logout")
+    res.render("logout");
   });
 
 

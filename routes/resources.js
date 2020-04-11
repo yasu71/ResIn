@@ -19,33 +19,6 @@ module.exports = (db) => {
 
   // My Resources Page for User once logged in
   router.get("/user/:userid", (req, res) => {
-    console.log('Resources Get Returned');
-
-
-
-    // db.query(`SELECT resources.*, ratings.rating FROM resources LEFT OUTER JOIN ratings ON resources.id = resource_id WHERE resources.user_id = $1`, [`${req.params.userid}`])
-
-//     db.query(`SELECT  resources.*, ratings.rating
-//     FROM resources
-//     FULL OUTER JOIN ratings ON resources.id = ratings.resource_id
-//     FULL OUTER JOIN likes ON resources.id = likes.resource_id
-//     WHERE resources.user_id = $1 OR likes.user_id = $1
-//     ;`, [`${req.params.userid}`])
-
-    // db.query(`
-    // SELECT resources.*,
-    // AVG(ratings.rating) AS rating
-    // FROM resources
-    // LEFT OUTER JOIN ratings ON resources.id = resource_id
-    // WHERE resources.user_id = $1
-    // GROUP BY resources.id`, [`${req.params.userid}`])
-
-    //db.query(`SELECT  resources.*, ratings.rating
-    //FROM resources
-    //FULL OUTER JOIN ratings ON resources.id = ratings.resource_id
-    //FULL OUTER JOIN likes ON resources.id = likes.resource_id
-    //WHERE resources.user_id = $1 OR likes.user_id = $1
-    //;`, [`${req.params.userid}`])
 
     db.query(`SELECT resources.*,
     AVG(ratings.rating) AS rating
@@ -65,7 +38,7 @@ module.exports = (db) => {
         res.json({ resources });
       })
       .catch(err => {
-        console.log({ error: err.message })
+        console.log({ error: err.message });
         res
           .status(500)
           .json({ error: err.message });
@@ -74,13 +47,13 @@ module.exports = (db) => {
 
   // Get request for the search feature,  search will convert table data and input to lowercase to compare before returning results to the searchform.js
   router.get("/search", (req, res) => {
-console.log(req.query.search)
 
     db.query(`SELECT resources.*, AVG(ratings.rating) as rating, COUNT(liked.id) as liked_bool
     FROM resources
     FULL OUTER JOIN ratings ON resources.id = ratings.resource_id
     FULL OUTER JOIN (SELECT likes.id, likes.resource_id FROM likes WHERE likes.user_id = $1) as liked ON resources.id = liked.resource_id
-    WHERE (LOWER(resources.title) LIKE LOWER('%' || $2 || '%') OR resources.description LIKE LOWER('%' || $2 || '%'))
+    WHERE (LOWER(resources.title) LIKE LOWER('%' || $2 || '%')
+    OR resources.description LIKE LOWER('%' || $2 || '%'))
     GROUP BY resources.id`, [req.session.user_id, req.query.search])
       .then(data => {
         const resources = data.rows;
@@ -95,12 +68,8 @@ console.log(req.query.search)
   });
 
   // Add new resource
-  // req is request - what is received by the endpoint
-  // res is response - what is sent back to the client
   router.post("/", (req, res) => {
     const userId = req.session.user_id;
-
-    // If user is not logged in the user will be redirected to login page and code will stop executing.
     if (!userId) {
       res.redirect('/login');
       return;
@@ -116,9 +85,7 @@ console.log(req.query.search)
 
     console.log(`INSERT INTO resources (user_id, url, title, description, img_url) VALUES ($1, $2, $3, $4 ,$5)`, [`${userId}, ${resourceUrl}, ${resourceTitle}, ${resourceDescription}, ${resourceImgUrl}`]);
 
-    if (!resourceDescription || !resourceTitle || !resourceUrl || !resourceImgUrl) { // <---- need to add userid and category to this one req.body as been added to these variables *********
-
-
+    if (!resourceDescription || !resourceTitle || !resourceUrl || !resourceImgUrl) {
       res.status(400).json({ error: 'invalid request: no data in POST body'});
     } else {
       db.query(`INSERT INTO resources (user_id, url, title, description, img_url) VALUES ($1, $2, $3, $4 ,$5) RETURNING *`, [`${userId}`, `${resourceUrl}`, `${resourceTitle}`, `${resourceDescription}`, `${resourceImgUrl}`])
@@ -200,10 +167,6 @@ console.log(req.query.search)
           .json({ error: err.message });
       });
   });
-
-
-
-
   return router;
 };
 
