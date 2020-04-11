@@ -15,102 +15,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   display: block;
 }
 
-body {
-  line-height: 1;
-}
-
-h1 {
-  position: relative;
-  text-align: center;
-  font-size: 25px;
-}
-
-section {
-  margin: 20px 20px 0px 100px;
-}
-
-article {
-  margin: 15px 10px;
-  word-break: keep-all;
-  width: 30%;
-  height: 875px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  float: left;
-  border: solid #a5a5a5;
-  border-width: thin;
-  border-radius: 10px;
-  padding: 20px;
-  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  -webkit-transition: 0.3s;
-  transition: 0.3s;
-  overflow: auto;
-}
-
-article .img-url {
-  width: 100%;
-  height: 55%;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-article .fa-heart {
-  position: relative;
-  float: right;
-  margin-left: 5px;
-}
-
-article .fa-comments {
-  position: relative;
-  float: right;
-  margin-left: 7px;
-  color: #7c3d78;
-}
-
-article .resource-title {
-  height: 70px;
-  width: 80%;
-  font-weight: bold;
-  font-size: 17px;
-  padding-bottom: 15px;
-}
-
-article .new-url {
-  display: none;
-}
-
-article .resource-desc {
-  line-height: 22px;
-  height: 80px;
-  margin-bottom: 20px;
-  overflow: auto;
-}
-
-article .resource-rating {
-  display: -ms-inline-grid;
-  display: inline-grid;
-  bottom: 0;
-  word-break: break-all;
-  float: left;
-  padding-top: 10px;
-  border-spacing: 2px;
-  color: #7c3d78;
-  font-weight: bold;
-}
-
-article .resource-footer {
-  display: -ms-inline-grid;
-  display: inline-grid;
-  padding-top: 15px;
-}
-
-article:hover {
-  -webkit-box-shadow: 0 8px 12px 0 #333333;
-          box-shadow: 0 8px 12px 0 #333333;
-}
-
 ol, ul {
   list-style: none;
 }
@@ -141,8 +45,162 @@ body {
 }
 
 body h1 {
+  position: relative;
+  text-align: center;
+}
+
+body #resource-header {
+  font-size: 30px;
+  text-transform: uppercase;
+}
+
+body section {
+  margin: 20px 20px 0px 100px;
+}
+
+body article {
+  margin: 15px 10px;
+  word-break: keep-all;
+  width: 30%;
+  height: 475px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  float: left;
+  border: solid #a5a5a5;
+  border-width: thin;
+  border-radius: 10px;
+  padding: 20px;
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  overflow: auto;
+}
+
+body article .img-container {
+  height: 40%;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: black;
+}
+
+body article .img-container a {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+body article .img-container a:hover .img-overlay {
+  visibility: visible;
+  opacity: 0.8;
+}
+
+body article .img-container a .img-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #000;
+  color: #fff;
+  visibility: hidden;
+}
+
+body article .img-container a .img-overlay .overlayText {
+  color: white;
+  font-size: 25px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+body article .img-url {
+  width: 100%;
+  display: block;
+  margin: auto;
+}
+
+body article .fa-heart {
+  position: relative;
+  float: right;
+  margin-left: 5px;
+}
+
+body article .fa-comments {
+  position: relative;
+  font-size: 25px;
+  float: right;
+  margin-right: 5px;
+}
+
+body article .fa-comments:hover {
+  color: #7c3d78;
+}
+
+body article .resource-title {
+  height: 70px;
+  width: 80%;
+  padding-bottom: 7px;
+}
+
+body article .resource-title a {
+  line-height: 25px;
+  font-size: 20px;
+  font-weight: bold;
   color: #4a4a4a;
-  font-size: 40px;
+}
+
+body article .resource-title a:hover {
+  color: #c188aa;
+}
+
+body article .new-url {
+  display: none;
+}
+
+body article .resource-desc {
+  line-height: 22px;
+  height: 90px;
+  margin-bottom: 20px;
+  overflow: auto;
+}
+
+body article .resource-rating {
+  display: -ms-inline-grid;
+  display: inline-grid;
+  bottom: 0;
+  word-break: break-all;
+  float: left;
+  padding-top: 10px;
+  border-spacing: 2px;
+  color: #7c3d78;
+  font-weight: bold;
+}
+
+body article .resource-footer {
+  display: -ms-inline-grid;
+  display: inline-grid;
+  padding-top: 15px;
+}
+
+body article:hover {
+  -webkit-box-shadow: 0 8px 12px 0 #333333;
+          box-shadow: 0 8px 12px 0 #333333;
 }
 
 body #new-resource {
@@ -182,9 +240,9 @@ body #resources-img {
   background-color: #fff;
   vertical-align: middle;
   font-family: arial;
-  font-size: 14px;
+  font-size: 17px;
   color: #545149;
-  line-height: 27px;
+  line-height: 25px;
 }
 
 body #resources-url {
@@ -199,14 +257,17 @@ body #resources-url {
   height: 50px;
   background-color: #fff;
   font-family: arial;
-  font-size: 14px;
+  font-size: 17px;
   color: #545149;
-  line-height: 27px;
+  line-height: 25px;
 }
 
 body #resources-title {
   padding: 10px;
   margin: 10px 20% 0 5%;
+  word-break: break-all;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   border: none;
   outline: none;
   resize: none;
@@ -215,10 +276,9 @@ body #resources-title {
   width: 90%;
   height: 50px;
   background-color: #fff;
-  font-family: arial;
-  font-size: 14px;
+  font-size: 17px;
   color: #545149;
-  line-height: 27px;
+  line-height: 25px;
 }
 
 body #resources-description {
@@ -233,9 +293,9 @@ body #resources-description {
   width: 90%;
   height: 100px;
   background-color: #fff;
-  font-family: arial;
-  font-size: 14px;
+  font-size: 17px;
   color: #545149;
+  line-height: 25px;
 }
 
 body #resources-img:hover {
@@ -339,7 +399,7 @@ body .starrr a {
   line-height: 20px;
   color: #fff;
   display: block;
-  margin: 10px;
+  margin: 10px 0;
   border-radius: 15px;
   text-align: center;
 }
@@ -354,11 +414,15 @@ body .starrr a {
 }
 
 .fa-heart:before {
-  font-size: 30px;
+  font-size: 23px;
 }
 
 .fa-heart:hover {
   color: #ffc0cb;
+}
+
+.comment-form {
+  display: none;
 }
 
 .comment-text {
@@ -368,16 +432,14 @@ body .starrr a {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  width: 100%;
   padding: 10px;
-  margin-top: 10px;
+  width: 100%;
   border: none;
   border-radius: 10px;
   outline: none;
   border-bottom: 2px solid #8f8fa0;
   height: 100px;
   background-color: #fbf5fc;
-  font-family: arial;
   font-size: 14px;
   color: #545149;
 }
@@ -390,28 +452,50 @@ body .starrr a {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  -webkit-box-align: stretch;
-      -ms-flex-align: stretch;
-          align-items: stretch;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-flex: 2;
-      -ms-flex: 2;
-          flex: 2;
-  margin: auto;
-  padding: 8px 12px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  padding: 10px 15px;
   border-radius: 5px;
-  font-size: 16px;
-  font-weight: bold;
-  outline: none;
-  border: none;
   background-color: #a86d96;
   color: #fff;
+  font-size: 14px;
+  letter-spacing: 2px;
+  font-weight: bold;
+  outline: none;
 }
 
 .comment-btn:hover {
   background-color: #545149;
+}
+
+.posts {
+  margin: 10% 2%;
+  border: 2px #919191;
+  background-color: #e4e4e7;
+  -webkit-box-shadow: 0px 4px 8px 0px #797da1;
+          box-shadow: 0px 4px 8px 0px #797da1;
+  border-radius: 10px;
+  width: 100%;
+  padding: 10px;
+  font-size: 15px;
+  line-height: 20px;
+}
+
+@media only screen and (max-width: 1400px) {
+  article .img-container {
+    height: 25%;
+  }
+  article .resource-title {
+    font-size: 18px;
+    line-height: 23px;
+  }
+  article .resource-desc {
+    height: 140px;
+  }
 }
 /*# sourceMappingURL=layout.css.map */

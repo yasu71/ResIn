@@ -32,13 +32,13 @@ module.exports = (db) => {
 //     WHERE resources.user_id = $1 OR likes.user_id = $1
 //     ;`, [`${req.params.userid}`])
 
-    db.query(`
-    SELECT resources.*, 
-    AVG(ratings.rating) AS rating 
-    FROM resources 
-    LEFT OUTER JOIN ratings ON resources.id = resource_id 
-    WHERE resources.user_id = $1 
-    GROUP BY resources.id`, [`${req.params.userid}`])
+    // db.query(`
+    // SELECT resources.*,
+    // AVG(ratings.rating) AS rating
+    // FROM resources
+    // LEFT OUTER JOIN ratings ON resources.id = resource_id
+    // WHERE resources.user_id = $1
+    // GROUP BY resources.id`, [`${req.params.userid}`])
 
     //db.query(`SELECT  resources.*, ratings.rating
     //FROM resources
@@ -47,7 +47,19 @@ module.exports = (db) => {
     //WHERE resources.user_id = $1 OR likes.user_id = $1
     //;`, [`${req.params.userid}`])
 
-
+    db.query(`SELECT resources.*,
+    AVG(ratings.rating) AS rating
+    FROM resources
+    LEFT OUTER JOIN ratings ON resources.id = ratings.resource_id
+    WHERE resources.id
+    IN (SELECT resources.id
+        FROM resources
+        WHERE user_id = $1
+        UNION SELECT resource_id
+        FROM likes
+        WHERE user_id = $1)
+        GROUP BY resources.id
+    `, [req.params.userid])
       .then(data => {
         const resources = data.rows;
         res.json({ resources });
