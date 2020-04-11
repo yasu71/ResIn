@@ -15,9 +15,8 @@ const loadResource = function(user_id) {
 
 const renderResources = function(results) {
   $('#resource-container').empty();
-  console.log(results['resources'])
+  //console.log(results['resources'])
   for (const resource of results['resources']) {
-    //console.log(resource)
     let $resource = createResElement(resource);
     $('#resource-container').append($resource);
 
@@ -127,7 +126,6 @@ const createResElement = function(resource) {
     let articleId = $myform.closest('.loaded-resource').attr('id');
     if (resource.id == articleId) {
       const formInfo = $myform.serialize();
-      //console.log(formInfo);
 
       $.post('/comments', formInfo)
         .then((response) => {
@@ -248,7 +246,7 @@ const searchResource = function(input) {
 
   $.getJSON('/resources/search', query)
     .then((results) => {
-      console.log(results);
+      $('#resource-container').off();
       renderResources(results);
     });
 };
