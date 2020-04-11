@@ -9,13 +9,13 @@ const loadResource = function(user_id) {
   $.getJSON(`/resources/user/${user_id}`)
   .then((results) => {
       renderResources(results);
-      // console.log("results", results);
+      console.log("results", results);
     });
 };
 
 const renderResources = function(results) {
   $('#resource-container').empty();
-  //console.log(results['resources'])
+  console.log(results['resources'])
   for (const resource of results['resources']) {
     //console.log(resource)
     let $resource = createResElement(resource);
@@ -141,7 +141,7 @@ const createResElement = function(resource) {
     $myicon = $(this);
     let articleId = $myicon.closest('.loaded-resource').attr('id');
     if (resource.id == articleId) {
-      $myicon.siblings('.comment-form').slideToggle(400);
+      $myicon.siblings('.comment-form').show();
     }
   });
 
