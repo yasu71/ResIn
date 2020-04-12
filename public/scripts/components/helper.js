@@ -7,15 +7,13 @@ const getUserId = () => {
 
 const loadResource = function(user_id) {
   $.getJSON(`/resources/user/${user_id}`)
-  .then((results) => {
+    .then((results) => {
       renderResources(results);
-      console.log("results", results);
     });
 };
 
 const renderResources = function(results) {
   $('#resource-container').empty();
-  //console.log(results['resources'])
   for (const resource of results['resources']) {
     let $resource = createResElement(resource);
     $('#resource-container').append($resource);
@@ -86,18 +84,15 @@ const renderResources = function(results) {
 
 const createResElement = function(resource) {
   const resourceId = resource.id;
-  //console.log(resourceId)
   const $article = $('<article>').addClass('loaded-resource').attr("id", resource.id);
   const $title = $('<p>').addClass('resource-title');
   const $titleLink = $('<a>').attr('href', resource.url).attr("target", "_blank").addClass('source-url').text(resource.title);
   const $imgDiv = $('<div>').addClass('img-container');
   const $imgATag = $('<a>').attr('href', resource.url).attr("target", "_blank").addClass('source-url');
   const $image = $('<img>').attr("src",resource.img_url).addClass('img-url');
-
   const $imageOverlay = $('<div>').addClass('img-overlay');
   const $overlayText = $('<div>').addClass('overlayText').text('Go to Resource Page');
   const $commenticon = $('<i>').addClass('fa fa-comments').attr('aria-hidden', 'true');
-
   const $url = $('<p>').text(resource.url).addClass('new-url');
   const $description = $('<p>').text(resource.description).addClass('resource-desc');
   const $footer = $('<p>').addClass('resource-footer');
@@ -115,13 +110,11 @@ const createResElement = function(resource) {
     .then((results) => {
       for (const data of results.reverse()) {
         $postedcomment.append($('<p>').text(data.comment).addClass('posts'));
-
       }
     });
 
   $('#resource-container').one('submit', '.comment-form', function(event) {
     event.preventDefault();
-
     $myform = $(this);
     let articleId = $myform.closest('.loaded-resource').attr('id');
     if (resource.id == articleId) {
@@ -219,7 +212,7 @@ const createResElement = function(resource) {
     const $categoryForm = $("<form>").attr("action", `/resource/user/${resource.user_id}`).attr("method", "POST");
     $categoryForm.append($dropdownSelect, $input);
 
-    const $div =$("<div>").attr("id", "demo");
+    const $div = $("<div>").attr("id", "demo");
     $article.append($div);
     $categoryDropdown.append($categoryForm).addClass('dropdown-cat');
     $categoryForm.append($dropdownSelect, $input);
@@ -228,13 +221,11 @@ const createResElement = function(resource) {
 
   $formcomment.append($comment, $hiddenresource, '<br>', $commentbtn);
   $heartContainer.append($heart);
-
   $imageOverlay.append($overlayText);
   $imgATag.append($image, $imageOverlay);
   $imgDiv.append($imgATag);
   $title.append($titleLink);
   $article.append($imgDiv, '<br>', $heartContainer, $commenticon, $title, $url, $description,  $footer, $categoryDropdown, '<br>', $formcomment, '<br>', $postedcomment);
-
 
   return $article;
 };
