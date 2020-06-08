@@ -1,5 +1,5 @@
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
@@ -16,11 +16,10 @@ module.exports = (db) => {
       });
   });
 
-
   // My Resources Page for User once logged in
   router.get("/user/:userid", (req, res) => {
 
-    db.query(`SELECT resources.*,
+    let sql = `SELECT resources.*,
     AVG(ratings.rating) AS rating
     FROM resources
     LEFT OUTER JOIN ratings ON resources.id = ratings.resource_id
@@ -32,9 +31,50 @@ module.exports = (db) => {
         FROM likes
         WHERE user_id = $1)
         GROUP BY resources.id
-    `, [req.params.userid])
+    `;
+
+    sql = `
+      select
+        rated_resources.*,
+        comments.comment as comment_comment,
+        cu.name as comment_user
+      from (
+        SELECT resources.*,
+          AVG(ratings.rating) AS rating
+        FROM resources
+          LEFT OUTER JOIN ratings ON resources.id = ratings.resource_id
+        WHERE resources.id in (
+          select resources.id from resources where user_id = $1 union select resource_id from likes where user_id = $1
+        )
+        GROUP BY resources.id
+      ) as rated_resources
+        left outer join comments on comments.resource_id = rated_resources.id
+        left outer join users as cu on comments.user_id = cu.id
+      order by rated_resources.id, comments.id
+    `
+
+    db.query(sql, [req.params.userid])
       .then(data => {
-        const resources = data.rows;
+        return data.rows;
+      })
+      .then(resources => {
+        let ans = {};
+        for (let res of resources) {
+          if (res.id in ans) {
+            ans[res.id].comments.push({user: res.comment_user, comment: res.comment_comment});
+          } else {
+            res.comments = [];
+            if (res.comment_comment !== null) {
+              res.comments.push({user: res.comment_user, comment: res.comment_comment});
+            }
+            delete res.comment_comment;
+            delete res.comment_user;
+            ans[res.id] = res;
+          }
+        }
+        return Object.values(ans);
+      })
+      .then(resources => {
         res.json({ resources });
       })
       .catch(err => {
@@ -48,19 +88,53 @@ module.exports = (db) => {
   // Get request for the search feature,  search will convert table data and input to lowercase to compare before returning results to the searchform.js
   router.get("/search", (req, res) => {
 
-    db.query(`SELECT resources.*, AVG(ratings.rating) as rating, COUNT(liked.id) as liked_bool
-    FROM resources
-    FULL OUTER JOIN ratings ON resources.id = ratings.resource_id
-    FULL OUTER JOIN (SELECT likes.id, likes.resource_id FROM likes WHERE likes.user_id = $1) as liked ON resources.id = liked.resource_id
-    WHERE (LOWER(resources.title) LIKE LOWER('%' || $2 || '%')
-    OR resources.description LIKE LOWER('%' || $2 || '%'))
-    GROUP BY resources.id`, [req.session.user_id, req.query.search])
+    let sql = `
+      select
+        rated_resources.*,
+        comments.comment as comment_comment,
+        cu.name as comment_user
+      from (
+        SELECT resources.*,
+          AVG(ratings.rating) AS rating
+        FROM resources
+          LEFT OUTER JOIN ratings ON resources.id = ratings.resource_id
+        WHERE resources.id in (
+          select resources.id from resources WHERE (LOWER(resources.title) LIKE LOWER('%' || $1 || '%')
+          OR resources.description LIKE LOWER('%' || $1 || '%'))
+        )
+        GROUP BY resources.id
+      ) as rated_resources
+        left outer join comments on comments.resource_id = rated_resources.id
+        left outer join users as cu on comments.user_id = cu.id
+      order by rated_resources.id, comments.id
+    `
+
+    db.query(sql, [req.query.search])
       .then(data => {
-        const resources = data.rows;
+        return data.rows;
+      })
+      .then(resources => {
+        let ans = {};
+        for (let res of resources) {
+          if (res.id in ans) {
+            ans[res.id].comments.push({user: res.comment_user, comment: res.comment_comment});
+          } else {
+            res.comments = [];
+            if (res.comment_comment !== null) {
+              res.comments.push({user: res.comment_user, comment: res.comment_comment});
+            }
+            delete res.comment_comment;
+            delete res.comment_user;
+            ans[res.id] = res;
+          }
+        }
+        return Object.values(ans);
+      })
+      .then(resources => {
         res.json({ resources });
       })
       .catch(err => {
-        console.log({ error: err.message })
+        console.log({ error: err.message });
         res
           .status(500)
           .json({ error: err.message });
@@ -86,7 +160,7 @@ module.exports = (db) => {
     console.log(`INSERT INTO resources (user_id, url, title, description, img_url) VALUES ($1, $2, $3, $4 ,$5)`, [`${userId}, ${resourceUrl}, ${resourceTitle}, ${resourceDescription}, ${resourceImgUrl}`]);
 
     if (!resourceDescription || !resourceTitle || !resourceUrl || !resourceImgUrl) {
-      res.status(400).json({ error: 'invalid request: no data in POST body'});
+      res.status(400).json({ error: 'invalid request: no data in POST body' });
     } else {
       db.query(`INSERT INTO resources (user_id, url, title, description, img_url) VALUES ($1, $2, $3, $4 ,$5) RETURNING *`, [`${userId}`, `${resourceUrl}`, `${resourceTitle}`, `${resourceDescription}`, `${resourceImgUrl}`])
         .then(data => {

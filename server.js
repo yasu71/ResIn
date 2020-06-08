@@ -21,6 +21,11 @@ const { Pool } = require('pg');
 const dbParams = require('./lib/db.js');
 const db = new Pool(dbParams);
 db.connect();
+// const oldPoolQuery = db.query;
+// db.query = (...args) => {
+//   console.log('QUERY:', args);
+//   return oldPoolQuery.apply(db, args);
+// };
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
